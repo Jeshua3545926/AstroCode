@@ -743,3 +743,173 @@ body {
 .debug-line-highlight {
     background-color: rgba(0, 122, 204, 0.2);
 }
+
+/* Estilos para el panel de Gemini */
+.Gemini-panel {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--sidebar-bg);
+}
+
+.Gemini-header {
+    padding: 8px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.Gemini-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.chat-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 16px;
+}
+
+.chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    margin-bottom: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.message {
+    max-width: 85%;
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.message.user {
+    align-self: flex-end;
+    background-color: var(--accent-color);
+    color: white;
+}
+
+.message.assistant {
+    align-self: flex-start;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: var(--text-color);
+}
+
+.chat-input-container {
+    display: flex;
+    gap: 8px;
+    padding: 8px;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+}
+
+.chat-input {
+    flex: 1;
+    background: none;
+    border: none;
+    color: var(--text-color);
+    font-size: 14px;
+    padding: 8px;
+    resize: none;
+    min-height: 24px;
+    max-height: 120px;
+    outline: none;
+}
+
+.chat-input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.send-button {
+    background: none;
+    border: none;
+    color: var(--accent-color);
+    cursor: pointer;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+}
+
+.send-button:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.send-button:disabled {
+    color: rgba(255, 255, 255, 0.3);
+    cursor: not-allowed;
+}
+
+/* Estilos para el chat en el sidebar */
+.sidebar .chat-container {
+    height: calc(100vh - 100px);
+    display: flex;
+    flex-direction: column;
+    padding: 8px;
+}
+
+.sidebar .chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    margin-bottom: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.sidebar .message {
+    max-width: 100%;
+    padding: 6px 8px;
+    border-radius: 6px;
+    font-size: 12px;
+    line-height: 1.3;
+}
+
+.sidebar .message.user {
+    align-self: flex-end;
+    background-color: var(--status-bar-bg);
+    color: white;
+}
+
+.sidebar .message.assistant {
+    align-self: flex-start;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: var(--text-color);
+}
+
+.sidebar .chat-input-container {
+    display: flex;
+    gap: 4px;
+    padding: 4px;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 4px;
+}
+
+.sidebar .chat-input {
+    flex: 1;
+    background: none;
+    border: none;
+    color: var(--text-color);
+    font-size: 12px;
+    padding: 4px;
+    resize: none;
+    min-height: 20px;
+    max-height: 80px;
+    outline: none;
+}
+
+.sidebar .send-button {
+    padding: 4px;
+    font-size: 14px;
+}

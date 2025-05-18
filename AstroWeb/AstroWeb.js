@@ -94,4 +94,50 @@ window.changeTheme = function(theme) {
         window.settingsMenu.remove();
         window.settingsMenu = null;
     }
-} 
+}
+
+// Función para enviar mensaje a Gemini
+function sendGeminiMessage() {
+    const input = document.getElementById('gemini-input');
+    const message = input.value.trim();
+    
+    if (message) {
+        // Agregar mensaje del usuario
+        addMessage(message, 'user');
+        
+        // Limpiar input
+        input.value = '';
+        
+        // Simular respuesta de Gemini (esto se reemplazará con la API real)
+        setTimeout(() => {
+            addMessage('Lo siento, la integración con Gemini aún no está disponible.', 'assistant');
+        }, 1000);
+    }
+}
+
+// Función para agregar mensaje al chat
+function addMessage(text, type) {
+    const messagesContainer = document.getElementById('gemini-messages');
+    const messageElement = document.createElement('div');
+    messageElement.className = `message ${type}`;
+    messageElement.textContent = text;
+    messagesContainer.appendChild(messageElement);
+    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+}
+
+// Event listener para enviar mensaje con Enter
+document.getElementById('gemini-input').addEventListener('keypress', (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        sendGeminiMessage();
+    }
+});
+
+// Función para nueva conversación
+function newGeminiConversation() {
+    const messagesContainer = document.getElementById('gemini-messages');
+    messagesContainer.innerHTML = '';
+}
+
+// Agregar event listener al botón de nueva conversación
+document.querySelector('.Gemini-header .action-button[title="Nueva conversación"]').addEventListener('click', newGeminiConversation); 
