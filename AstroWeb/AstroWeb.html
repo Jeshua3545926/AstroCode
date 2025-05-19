@@ -158,9 +158,30 @@
                     <button class="action-button" title="Actualizar">
                         <i class="ri-refresh-line"></i>
                     </button>
+                    <button class="action-button" title="Eliminar conversación">
+                        <i class="ri-delete-bin-line"></i>
+                    </button>
                 </div>
             </div>
             <div class="Gemini-content">
+                <div class="gemini-intro">
+                    <div class="gemini-logo">
+                        <img src="Gemini-removebg-preview.png" alt="Gemini Logo"> <!-- Imagen del logo de Gemini -->
+                    </div>
+                    <h2>¡Hola! Soy Gemini</h2>
+                    <p>Tu asistente de programación intel...</p>
+                </div>
+                <div class="gemini-actions">
+                    <button class="action-button-lg">
+                        <i class="ri-code-box-line"></i> Generación de código
+                    </button>
+                    <button class="action-button-lg">
+                        <i class="ri-question-line"></i> Respuestas a preguntas
+                    </button>
+                    <button class="action-button-lg">
+                        <i class="ri-bug-line"></i> Depuración de código
+                    </button>
+                </div>
                 <div class="chat-container">
                     <div class="chat-messages" id="gemini-messages">
                         <!-- Los mensajes se agregarán aquí dinámicamente -->
@@ -170,6 +191,9 @@
                         <button class="send-button" onclick="sendGeminiMessage()">
                             <i class="ri-send-plane-fill"></i>
                         </button>
+                    </div>
+                    <div class="suggested-actions">
+                        <!-- Acciones sugeridas se agregarán aquí dinámicamente -->
                     </div>
                 </div>
             </div>
@@ -523,6 +547,24 @@
                     sidebar.style.display = 'block';
                     sidebarHeader.textContent = 'GEMINI';
                     sidebar.querySelector('.sidebar-content').innerHTML = `
+                        <div class="gemini-intro">
+                            <div class="gemini-logo">
+                                <img src="Gemini-removebg-preview.png" alt="Gemini Logo"> <!-- Imagen del logo de Gemini -->
+                            </div>
+                            <h2>¡Hola! Soy Gemini</h2>
+                            <p>Tu asistente de programación intel...</p>
+                        </div>
+                        <div class="gemini-actions">
+                            <button class="action-button-lg">
+                                <i class="ri-code-box-line"></i> Generación de código
+                            </button>
+                            <button class="action-button-lg">
+                                <i class="ri-question-line"></i> Respuestas a preguntas
+                            </button>
+                            <button class="action-button-lg">
+                                <i class="ri-bug-line"></i> Depuración de código
+                            </button>
+                        </div>
                         <div class="chat-container">
                             <div class="chat-messages" id="gemini-messages">
                                 <!-- Los mensajes se agregarán aquí dinámicamente -->
@@ -532,6 +574,9 @@
                                 <button class="send-button" onclick="sendGeminiMessage()">
                                     <i class="ri-send-plane-fill"></i>
                                 </button>
+                            </div>
+                            <div class="suggested-actions">
+                                <!-- Acciones sugeridas se agregarán aquí dinámicamente -->
                             </div>
                         </div>
                     `;

@@ -700,16 +700,19 @@ body {
     color: var(--text-color);
     cursor: pointer;
     border-radius: 4px;
-    transition: all 0.2s;
+    transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
     font-size: 12px;
 }
 
 .config-button:hover {
     background-color: rgba(255, 255, 255, 0.1);
+    transform: translateX(5px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
 .config-button i {
     font-size: 14px;
+    transition: all 0.2s;
 }
 
 /* Console Output */
@@ -766,6 +769,80 @@ body {
     display: flex;
     flex-direction: column;
     overflow: hidden;
+}
+
+.gemini-intro {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 24px 16px;
+    text-align: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    margin-bottom: 16px;
+}
+
+.gemini-logo {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--status-bar-bg);
+    margin-bottom: 16px;
+}
+
+.gemini-logo img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+.gemini-intro h2 {
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--text-color);
+    margin-bottom: 8px;
+}
+
+.gemini-intro p {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.gemini-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 0 16px 16px 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    margin-bottom: 16px;
+}
+
+.action-button-lg {
+    width: 100%;
+    padding: 8px 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: rgba(255, 255, 255, 0.05);
+    border: none;
+    color: var(--text-color);
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.action-button-lg:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    transform: translateX(5px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.action-button-lg i {
+    font-size: 20px;
+    color: var(--status-bar-bg);
+    transition: all 0.2s;
 }
 
 .chat-container {
@@ -912,4 +989,9 @@ body {
 .sidebar .send-button {
     padding: 4px;
     font-size: 14px;
+}
+
+.suggested-actions {
+    padding: 8px 16px 0 16px;
+    /* Estilos adicionales según sea necesario */
 }
