@@ -1,4 +1,4 @@
-# Editor de Código Pro
+# Astro
 
 Un editor de código moderno y potente construido con Electron y Monaco Editor.
 
@@ -28,10 +28,15 @@ Un editor de código moderno y potente construido con Electron y Monaco Editor.
 ## 🛠️ Tecnologías
 
 - Electron
-- Monaco Editor
-- Git
-- Mermaid.js/Draw.io
-- OpenAI API
+- hTML
+- Css
+-Js
+
+## 🛠️ Futuras Tecnologias 
+
+- Electron
+- React
+
 
 ## 📦 Instalación
 
@@ -66,12 +71,23 @@ Este proyecto está bajo la Licencia MIT - ver el archivo [LICENSE.md](LICENSE.m
 
 ## 👥 Autores
 
-- Tu Nombre - *Trabajo Inicial* - [TuGitHub](https://github.com/tu-usuario)
+- Jeshua Abiram Garza Romero - *Trabajo Inicial* - [TuGitHub](https://github.com/tu-usuario)
 
 ## 🙏 Agradecimientos
+-
+-
+-
+-
+-
+-
+-
 
-- Monaco Editor
-- Electron
-- Mermaid.js/Draw.io
-- OpenAI
+
+
+## Futuras Implementaciones
+
+- IA --- Gemini, Copilot, ChatGpt(OpenAI), Claude, Grok
+- Reproductor de musica 
+- Creacion de diagramas de flujo con y sin Sintaxis
+- Emulador de Android -- Ios (Mac) 
 
