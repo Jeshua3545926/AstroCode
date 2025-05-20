@@ -7,9 +7,9 @@
     <link rel="stylesheet" href="AstroWeb.css">
     <script src="AstroWeb.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Fira+Code&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/css/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="./node_modules/monaco-editor/min/vs/editor/editor.main.css">
-    <link rel="stylesheet" href="">
+    <link rel="stylesheet" href="copilot.css">
     <style>
         #monaco-editor {
             width: 100%;
@@ -47,10 +47,10 @@
                 <button class="activity-button" data-view="gemini" title="Gemini">
                     <i class="ri-gemini-line"></i>
                 </button>
-                <button class="activity-button" data-view="" title="Copilot">
+                <button class="activity-button" data-view="copilot" title="Copilot">
                     <i class="ri-copilot-line"></i>
                 </button>
-                <button class="activity-button" data-view="" title="Chat Gpt">
+                <button class="activity-button" data-view="chatgpt" title="Chat Gpt">
                     <i class="ri-openai-fill"></i>
                 </button>
             </div>
@@ -199,6 +199,74 @@
             </div>
         </div>
 
+        <!-- Panel de Copilot -->
+        <div class="Copilot-panel" style="display: none;">
+            <div class="copilot-content">
+                <div class="copilot-header">
+                    <div class="copilot-logo">
+                        <img src="copilot-logo.png" alt="GitHub Copilot Logo">
+                        <span>GitHub Copilot</span>
+                    </div>
+                    <div class="copilot-header-actions">
+                        <button class="copilot-header-button" title="Nueva conversación">
+                            <i class="ri-add-line"></i>
+                        </button>
+                        <button class="copilot-header-button" title="Configuración">
+                            <i class="ri-settings-3-line"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="copilot-chat-messages" id="copilot-messages">
+                    <div class="copilot-message">
+                        <div class="copilot-message-avatar">
+                            <i class="ri-copilot-line"></i>
+                        </div>
+                        <div class="copilot-message-content">
+                            <p>¡Hola! Soy GitHub Copilot. ¿En qué puedo ayudarte hoy?</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="copilot-suggestions">
+                    <div class="copilot-suggestion-item">
+                        <div class="copilot-suggestion-icon">
+                            <i class="ri-code-box-line"></i>
+                        </div>
+                        <div class="copilot-suggestion-content">
+                            <div class="copilot-suggestion-title">Generar código</div>
+                            <div class="copilot-suggestion-description">Sugerencias de código basadas en tu contexto</div>
+                        </div>
+                    </div>
+                    <div class="copilot-suggestion-item">
+                        <div class="copilot-suggestion-icon">
+                            <i class="ri-question-line"></i>
+                        </div>
+                        <div class="copilot-suggestion-content">
+                            <div class="copilot-suggestion-title">Explicar código</div>
+                            <div class="copilot-suggestion-description">Obtén explicaciones detalladas de tu código</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="copilot-quick-actions">
+                    <button class="copilot-quick-action">
+                        <i class="ri-code-box-line"></i> Generar función
+                    </button>
+                    <button class="copilot-quick-action">
+                        <i class="ri-question-line"></i> Explicar código
+                    </button>
+                    <button class="copilot-quick-action">
+                        <i class="ri-bug-line"></i> Depurar
+                    </button>
+                </div>
+                <div class="copilot-chat-input-container">
+                    <div class="copilot-chat-input-wrapper">
+                        <textarea class="copilot-chat-input" id="copilot-input" placeholder="Escribe un mensaje o describe lo que necesitas..."></textarea>
+                        <button class="copilot-send-button" onclick="sendCopilotMessage()">
+                            <i class="ri-send-plane-fill"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <!-- Panel de estado -->
         <div class="status-bar">
@@ -450,11 +518,13 @@
             const extensionsPanel = document.querySelector('.extensions-panel');
             const debugPanel = document.querySelector('.debug-panel');
             const geminiPanel = document.querySelector('.Gemini-panel');
+            const copilot = document.querySelector('.Copilot-panel');
             
             // Ocultar todos los paneles primero
             if (extensionsPanel) extensionsPanel.style.display = 'none';
             if (debugPanel) debugPanel.style.display = 'none';
             if (geminiPanel) geminiPanel.style.display = 'none';
+            if (copilot) copilot.style.display = 'none';
             
             switch(view) {
                 case 'explorer':
@@ -570,6 +640,78 @@
                         </div>
                     `;
                     break;
+                case 'copilot':
+                    sidebar.style.display = 'block';
+                    sidebarHeader.textContent = 'COPILOT';
+                    if (copilot) copilot.style.display = 'flex';
+                    sidebar.querySelector('.sidebar-content').innerHTML = `
+                        <div class="copilot-content">
+                            <div class="copilot-header">
+                                <div class="copilot-logo">
+                                    <img src="copilot-logo.png" alt="GitHub Copilot Logo">
+                                    <span>GitHub Copilot</span>
+                                </div>
+                                <div class="copilot-header-actions">
+                                    <button class="copilot-header-button" title="Nueva conversación">
+                                        <i class="ri-add-line"></i>
+                                    </button>
+                                    <button class="copilot-header-button" title="Configuración">
+                                        <i class="ri-settings-3-line"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="copilot-chat-messages" id="copilot-messages">
+                                <div class="copilot-message">
+                                    <div class="copilot-message-avatar">
+                                        <i class="ri-copilot-line"></i>
+                                    </div>
+                                    <div class="copilot-message-content">
+                                        <p>¡Hola! Soy GitHub Copilot. ¿En qué puedo ayudarte hoy?</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="copilot-suggestions">
+                                <div class="copilot-suggestion-item">
+                                    <div class="copilot-suggestion-icon">
+                                        <i class="ri-code-box-line"></i>
+                                    </div>
+                                    <div class="copilot-suggestion-content">
+                                        <div class="copilot-suggestion-title">Generar código</div>
+                                        <div class="copilot-suggestion-description">Sugerencias de código basadas en tu contexto</div>
+                                    </div>
+                                </div>
+                                <div class="copilot-suggestion-item">
+                                    <div class="copilot-suggestion-icon">
+                                        <i class="ri-question-line"></i>
+                                    </div>
+                                    <div class="copilot-suggestion-content">
+                                        <div class="copilot-suggestion-title">Explicar código</div>
+                                        <div class="copilot-suggestion-description">Obtén explicaciones detalladas de tu código</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="copilot-quick-actions">
+                                <button class="copilot-quick-action">
+                                    <i class="ri-code-box-line"></i> Generar función
+                                </button>
+                                <button class="copilot-quick-action">
+                                    <i class="ri-question-line"></i> Explicar código
+                                </button>
+                                <button class="copilot-quick-action">
+                                    <i class="ri-bug-line"></i> Depurar
+                                </button>
+                            </div>
+                            <div class="copilot-chat-input-container">
+                                <div class="copilot-chat-input-wrapper">
+                                    <textarea class="copilot-chat-input" id="copilot-input" placeholder="Escribe un mensaje o describe lo que necesitas..."></textarea>
+                                    <button class="copilot-send-button" onclick="sendCopilotMessage()">
+                                        <i class="ri-send-plane-fill"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    break;
                 default:
                     sidebar.style.display = 'none';
             }
@@ -668,7 +810,8 @@
                     ext.displayName.toLowerCase().includes(searchTerm) ||
                     ext.description.toLowerCase().includes(searchTerm)
                 );
-                extensionsList.innerHTML = filtered.map(extension => `                    <div class="extension-card">
+                extensionsList.innerHTML = filtered.map(extension => `
+                    <div class="extension-card">
                         <div class="extension-icon">
                             <i class="ri-code-box-line"></i>
                         </div>
