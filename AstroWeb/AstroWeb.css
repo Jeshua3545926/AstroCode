@@ -93,7 +93,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    
 }
 
 .sidebar-header h3 {
@@ -782,7 +782,7 @@ body {
     align-items: center;
     padding: 20px 0;
     text-align: center;
-    background: linear-gradient(to top, #272626, #1f1e1e, #1a1a1a);
+    background: linear-gradient(to top, #272626, #1f1e1e, #181818);
     margin-bottom: 16px;
 }
 
