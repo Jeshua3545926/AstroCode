@@ -375,6 +375,7 @@
                     <button onclick="window.changeTheme('hc-black')">Alto Contraste</button>
                     <button onclick="window.changeTheme('monokai')">Monokai</button>
                     <button onclick="window.changeTheme('github')">GitHub</button>
+                    <button onclick="window.changeTheme('githubDark')">GitHub Dark</button>
                 </div>
             `;
             document.body.appendChild(window.settingsMenu);
@@ -423,25 +424,42 @@
                     base: 'vs',
                     inherit: true,
                     rules: [
-                        { token: '', foreground: '24292e', background: 'ffffff' },
+                        { token: '', foreground: 'f8f8f2', background: '272822' },
                         { token: 'comment', foreground: '6a737d' },
-                        { token: 'string', foreground: '032f62' },
-                        { token: 'variable', foreground: 'e36209' },
-                        { token: 'number', foreground: '005cc5' },
-                        { token: 'keyword', foreground: 'd73a49' },
-                        { token: 'delimiter', foreground: '24292e' },
-                        { token: 'type', foreground: '6f42c1' },
-                        { token: 'function', foreground: '6f42c1' }
+                        { token: 'string', foreground: '79b8ff' },
+                        { token: 'variable', foreground: 'ff7b72' },
+                        { token: 'number', foreground: '79b8ff' },
+                        { token: 'keyword', foreground: 'ff7b72' },
+                        { token: 'delimiter', foreground: 'f8f8f2' },
+                        { token: 'type', foreground: '79b8ff' },
+                        { token: 'function', foreground: 'b392f0' },
+                        { token: 'operator', foreground: 'ff7b72' },
+                        { token: 'property', foreground: '79b8ff' },
+                        { token: 'parameter', foreground: 'ff7b72' },
+                        { token: 'class', foreground: 'b392f0' },
+                        { token: 'interface', foreground: 'b392f0' },
+                        { token: 'enum', foreground: 'b392f0' },
+                        { token: 'constant', foreground: '79b8ff' },
+                        { token: 'console', foreground: 'ff7b72' },
+                        { token: 'log', foreground: 'b392f0' },
+                        { token: 'debug', foreground: '79b8ff' },
+                        { token: 'info', foreground: '79b8ff' },
+                        { token: 'warn', foreground: 'ffa657' },
+                        { token: 'error', foreground: 'f85149' },
+                        { token: 'variable.declaration', foreground: 'ff7b72' },
+                        { token: 'variable.readonly', foreground: '79b8ff' },
+                        { token: 'variable.parameter', foreground: 'ff7b72' }
                     ],
                     colors: {
-                        'editor.background': '#ffffff',
-                        'editor.foreground': '#24292e',
-                        'editor.lineHighlightBackground': '#f6f8fa',
-                        'editorCursor.foreground': '#24292e',
-                        'editorWhitespace.foreground': '#d1d5da',
-                        'editor.lineHighlightBorder': '#f6f8fa',
-                        'editor.selectionBackground': '#c8e1ff',
-                        'editor.inactiveSelectionBackground': '#c8e1ff'
+                        'editor.background': '#0d1117',
+                        'editor.foreground': '#c9d1d9',
+                        'editor.lineHighlightBackground': '#161b22',
+                        'editorCursor.foreground': '#c9d1d9',
+                        'editorWhitespace.foreground': '#161b22',
+                        'editor.lineHighlightBorder': '#161b22',
+                        'editor.selectionBackground': '#264f78',
+                        'editor.inactiveSelectionBackground': '#264f78',
+                        'editorMinimap.background': 'transparent',
                     }
                 };
 
@@ -451,7 +469,7 @@
 
                 // Crear el editor
                 const editor = monaco.editor.create(document.getElementById('monaco-editor'), {
-                    value: `// Escribe tu código aquí\n\nfunction saludo(nombre) {\n    console.log('Hola, ' + nombre);\n}\n\nsaludo('Mundo');`,
+                    value: `// Escribe tu código aquí\n\nconst frasesMotivadoras = [\n  "¡Ponte trucha, que el mundo no espera!",\n  "El éxito no se duerme, y tú tampoco deberías.",\n  "Echa chingazos, no excusas.",\n  "Código duro o nada, prro.",\n  "No le saques, que pa' eso estás hecho.",\n  "Levántate, compila y domina el día.",\n  "Tu futuro no se va a programar solo, carnal."\n];`,
                     language: 'javascript',
                     theme: 'vs-dark',
                     automaticLayout: true,
