@@ -787,15 +787,20 @@ body {
 }
 
 .gemini-logo {
-    width: 70px;
-    height: 70px;
+    width: 80px;
+    height: 80px;
     display: flex;
     justify-content: center;
     align-items: center;
     color: var(--status-bar-bg);
     margin-bottom: 12px;
-    animation: gemini-logo-roll-in-bounce 2.3s cubic-bezier(.77,0,.18,1) 0.1s both;
-    will-change: transform, filter;
+    /* Aplicar la animación de entrada seguida de la de rebote */
+    animation: 
+        roll-in-bounce-entry 3s ease-out forwards, /* Animación de entrada: duración 1s, easing, mantiene estado final */
+        bounce-subtle 3s ease-in-out infinite 3s; /* Animación de rebote: duración 2s, easing, loop, empieza 1s después (tras la entrada) */
+        
+    /* Añadir un sutil resplandor/sombra */
+    filter: drop-shadow(0 0 8px rgb(4, 82, 138)); /* Color del resplandor usando el color de status bar */
 }
 
 .gemini-logo img {
@@ -1007,68 +1012,24 @@ body {
     /* Estilos adicionales según sea necesario */
 }
 
-/* Animación de entrada para el logo de Gemini */
-@keyframes gemini-logo-roll-in {
-  0% {
-    transform: translateX(-200px) rotate(-720deg) scale(0.7);
-    opacity: 0;
-  }
-  60% {
-    transform: translateX(10px) rotate(20deg) scale(1.05);
-    opacity: 1;
-  }
-  75% {
-    transform: translateX(0) rotate(0deg) scale(1.1);
-  }
-  85% {
-    transform: translateY(-18px) scale(1.08);
-  }
-  92% {
-    transform: translateY(0) scale(0.98);
-  }
-  97% {
-    transform: translateY(-8px) scale(1.02);
-  }
-  100% {
-    transform: translateY(0) scale(1);
-  }
+/* Animación de entrada (rodar y rebotar un poco) */
+@keyframes roll-in-bounce-entry {
+    0% {
+        opacity: 0;
+        transform: translateY(-50px) scale(0.5) rotate(-180deg); /* Viene de arriba, más pequeño y rotado */
+    }
+    60% {
+        opacity: 1;
+        transform: translateY(10px) scale(1.1) rotate(10deg); /* Sobrepasa un poco, más grande */
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1) rotate(0deg); /* Posición final */
+    }
 }
 
-/* Animación de entrada: rueda desde la izquierda y rebota */
-@keyframes gemini-logo-roll-in-bounce {
-  0% {
-    opacity: 0;
-    transform: translateX(-260px) rotate(-540deg) scale(0.7);
-    filter: brightness(1) drop-shadow(0 0 0 #fff);
-  }
-  55% {
-    opacity: 1;
-    transform: translateX(24px) rotate(18deg) scale(1.08);
-    filter: brightness(1.08) drop-shadow(0 0 0 #fff);
-  }
-  70% {
-    transform: translateX(-10px) rotate(-8deg) scale(0.98);
-    filter: brightness(1.08) drop-shadow(0 0 0 #fff);
-  }
-  80% {
-    transform: translateX(0) rotate(0deg) scale(1.13);
-    filter: brightness(1.25) drop-shadow(0 0 40px #b3e0ffcc) drop-shadow(0 0 80px #007acc99);
-  }
-  86% {
-    transform: translateY(-10px) scale(1.09);
-    filter: brightness(1.35) drop-shadow(0 0 60px #eaf6ffff) drop-shadow(0 0 120px #007acccc);
-  }
-  92% {
-    transform: translateY(0) scale(0.98);
-    filter: brightness(1.08) drop-shadow(0 0 0 #fff);
-  }
-  97% {
-    transform: translateY(-4px) scale(1.01);
-    filter: brightness(1.12) drop-shadow(0 0 24px #b3e0ff99);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-    filter: brightness(1) drop-shadow(0 0 0 #fff);
-  }
+/* Animación de rebote suave (looping) */
+@keyframes bounce-subtle {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); } /* Ajusta este valor para un rebote más o menos pronunciado */
 }
