@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="AstroWeb.css">
     <script src="AstroWeb.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Fira+Code&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/css/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="./node_modules/monaco-editor/min/vs/editor/editor.main.css">
     <link rel="stylesheet" href="">
     <style>
@@ -47,10 +47,10 @@
                 <button class="activity-button" data-view="gemini" title="Gemini">
                     <i class="ri-gemini-line"></i>
                 </button>
-                <button class="activity-button" data-view="gemini" title="Copilot">
+                <button class="activity-button" data-view="" title="Copilot">
                     <i class="ri-copilot-line"></i>
                 </button>
-                <button class="activity-button" data-view="gemini" title="Chat Gpt">
+                <button class="activity-button" data-view="" title="Chat Gpt">
                     <i class="ri-openai-fill"></i>
                 </button>
             </div>
@@ -222,8 +222,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.36.1/min/vs/editor/editor.main.js"></script>
 
     <script>
-        // Detectar si estamos en Electron
-        const isElectron = window.navigator.userAgent.toLowerCase().indexOf('electron/') > -1;
+
 
         // Agregar variable para la vista actual
         let currentView = 'explorer';
@@ -546,38 +545,28 @@
                 case 'gemini':
                     sidebar.style.display = 'block';
                     sidebarHeader.textContent = 'GEMINI';
+                    if (geminiPanel) geminiPanel.style.display = 'flex';
+                    // Rellenar el contenido del sidebar con los botones y chat de Gemini
                     sidebar.querySelector('.sidebar-content').innerHTML = `
                         <div class="gemini-intro">
                             <div class="gemini-logo">
-                                <img src="Gemini-removebg-preview.png" alt="Gemini Logo"> <!-- Imagen del logo de Gemini -->
+                                <img src="Gemini-removebg-preview.png" alt="Gemini Logo">
                             </div>
                             <h2>¡Hola! Soy Gemini</h2>
-                            <p>Tu asistente de programación intel...</p>
+                            <p>Tu asistente de programación inteligente.</p>
                         </div>
                         <div class="gemini-actions">
-                            <button class="action-button-lg">
-                                <i class="ri-code-box-line"></i> Generación de código
-                            </button>
-                            <button class="action-button-lg">
-                                <i class="ri-question-line"></i> Respuestas a preguntas
-                            </button>
-                            <button class="action-button-lg">
-                                <i class="ri-bug-line"></i> Depuración de código
-                            </button>
+                            <button class="action-button-lg"><i class="ri-code-box-line"></i> Generación de código</button>
+                            <button class="action-button-lg"><i class="ri-question-line"></i> Respuestas a preguntas</button>
+                            <button class="action-button-lg"><i class="ri-bug-line"></i> Depuración de código</button>
                         </div>
                         <div class="chat-container">
-                            <div class="chat-messages" id="gemini-messages">
-                                <!-- Los mensajes se agregarán aquí dinámicamente -->
-                            </div>
+                            <div class="chat-messages" id="gemini-messages"></div>
                             <div class="chat-input-container">
                                 <textarea class="chat-input" id="gemini-input" placeholder="Escribe un mensaje..."></textarea>
-                                <button class="send-button" onclick="sendGeminiMessage()">
-                                    <i class="ri-send-plane-fill"></i>
-                                </button>
+                                <button class="send-button" onclick="sendGeminiMessage()"><i class="ri-send-plane-fill"></i></button>
                             </div>
-                            <div class="suggested-actions">
-                                <!-- Acciones sugeridas se agregarán aquí dinámicamente -->
-                            </div>
+                            <div class="suggested-actions"></div>
                         </div>
                     `;
                     break;
