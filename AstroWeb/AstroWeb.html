@@ -47,10 +47,10 @@
                 <button class="activity-button" data-view="gemini" title="Gemini">
                     <i class="ri-gemini-line"></i>
                 </button>
-                <button class="activity-button" data-view="" title="Copilot">
+                <button class="activity-button" data-view="gemini" title="Copilot">
                     <i class="ri-copilot-line"></i>
                 </button>
-                <button class="activity-button" data-view="" title="Chat Gpt">
+                <button class="activity-button" data-view="gemini" title="Chat Gpt">
                     <i class="ri-openai-fill"></i>
                 </button>
             </div>
@@ -1009,8 +1009,8 @@
         }
 
         // Event listeners para los botones de depuración
-        document.getElementById('runButton').addEventListener('click', runCode);
-        document.getElementById('debugButton').addEventListener('click', startDebugging);
+        // document.getElementById('runButton').addEventListener('click', runCode); // Comentado porque el elemento con ID runButton no existe
+        // document.getElementById('debugButton').addEventListener('click', startDebugging); // Comentado porque el elemento con ID debugButton no existe
         document.getElementById('continueButton').addEventListener('click', () => {
             if (!isDebugging) startDebugging();
         });
