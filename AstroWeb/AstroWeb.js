@@ -1,4 +1,4 @@
-const { contextBridge } = require('electron');
+/*const { contextBridge } = require('electron');
 const path = require('path');
 
 // Solo inicializar Monaco en Electron
@@ -141,3 +141,5 @@ function newGeminiConversation() {
 
 // Agregar event listener al botón de nueva conversación
 document.querySelector('.Gemini-header .action-button[title="Nueva conversación"]').addEventListener('click', newGeminiConversation); 
+
+*/
