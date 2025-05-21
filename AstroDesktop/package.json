@@ -2,7 +2,7 @@
   "name": "astro",
   "version": "1.0.0",
   "description": "Astro",
-  "main": "main.js",
+  "main": "Js/main.js",
   "scripts": {
     "start": "electron .",
     "build": "electron-builder --win --x64"

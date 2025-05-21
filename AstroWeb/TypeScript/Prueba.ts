@@ -7,6 +7,7 @@
 // tsc Prueba.ts
 // una vez compilado el conecta el archivo .js generado en el html
 // Para ejecutar el archivo, utiliza el siguiente comando en la terminal:
+// node Prueba.js
 // ! Recordatorio: Este archivo es solo un ejemplo y no se utiliza en la aplicación.
 
 // This file is for testing purposes only and is not used in the application.
@@ -18,6 +19,7 @@
 // tsc Prueba.ts
 // Once compiled, connect the generated .js file in the html
 // To run the file, use the following command in the terminal:
+// node Prueba.js
 //! Record: This file is just an example and is not used in the application.
 
 //---------------------------------------------------------------------
