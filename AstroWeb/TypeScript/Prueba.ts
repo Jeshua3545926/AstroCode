@@ -9,6 +9,12 @@
 // Para ejecutar el archivo, utiliza el siguiente comando en la terminal:
 // node Prueba.js
 // ! Recordatorio: Este archivo es solo un ejemplo y no se utiliza en la aplicación.
+//Para mas informacion sobre Como usaremos typescript en el proyecto puedes consultar la siguiente documentacio en la carpeta:
+
+const miEnlace = "/Update/Update.md";
+
+
+
 
 // This file is for testing purposes only and is not used in the application.
 // If you want to use it, make sure the code is properly implemented and error-free, along with its TypeScript installation and configuration.
