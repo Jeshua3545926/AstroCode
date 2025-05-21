@@ -170,12 +170,19 @@ body {
 
 .hero {
     text-align: center;
+    width: 100vw;
+    margin: 0;
     padding: 6rem 2rem;
     background: linear-gradient(139deg, 
         rgb(0, 0, 0),
         rgb(0, 54, 87),
         rgb(0, 0, 0)
     );
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
 }
 
 .hero h1 {
