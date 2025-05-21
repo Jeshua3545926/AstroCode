@@ -179,6 +179,7 @@ body {
         rgb(0, 0, 0)
     );
     position: relative;
+    /* Full-width hack: centers the element and ensures it spans the entire viewport width */
     left: 50%;
     right: 50%;
     margin-left: -50vw;
