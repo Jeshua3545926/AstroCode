@@ -35,7 +35,7 @@
             <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg" alt="TypeScript">
         </div>
         <h3>TypeScript</h3>
-        <p>Desarrollo de aplicaciones empresariales robustas</p>
+        <p>Desarrollo de aplicaciones Desktop</p>
         <div class="tech-details">
             <ul>
                 <li>Sistema de tipos avanzado</li>
@@ -43,7 +43,6 @@
                 <li>Integración nativa con Electron</li>
                 <li>Manejo de errores mejorado</li>
                 <li>Autocompletado inteligente</li>
-                <li>Documentación automática</li>
             </ul>
         </div>
     </div>
@@ -52,7 +51,7 @@
             <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" alt="React">
         </div>
         <h3>React</h3>
-        <p>Interfaces de usuario modernas y responsivas</p>
+        <p>Interfaces de usuario modernas y responsivas para la Web</p>
         <div class="tech-details">
             <ul>
                 <li>Arquitectura basada en componentes</li>
@@ -343,4 +342,3 @@ body {
     }
 }
 </style>
-
