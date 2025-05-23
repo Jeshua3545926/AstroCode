@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="./node_modules/monaco-editor/min/vs/editor/editor.main.css">
     <link rel="stylesheet" href="copilot.css">
     <link rel="stylesheet" href="AstroWeb.css">
+    <link rel="stylesheet" href="DiagramaFlujo.css">
     <style>
         #monaco-editor {
             width: 100%;
@@ -53,10 +54,6 @@
                 <button class="activity-button" data-view="chatgpt" title="Chat Gpt">
                     <i class="ri-openai-fill"></i>
                 </button>
-                <button class="activity-button" data-view="flowchart" title="Diagrama de Flujo">
-                    <i class="ri-flow-chart"></i>
-                </button>
-                
             </div>
             <div class="activity-bar-bottom">
                 <button class="activity-button" data-view="settings" title="Configuración">
@@ -272,6 +269,98 @@
             </div>
         </div>
 
+        <!-- Panel de Diagramas de Flujo -->
+        <div class="flowchart-panel" style="display: none;">
+            <div class="flowchart-header">
+                <h3>DIAGRAMAS DE FLUJO</h3>
+                <div class="flowchart-actions">
+                    <button class="action-button" title="Nuevo diagrama">
+                        <i class="ri-add-line"></i>
+                    </button>
+                    <button class="action-button" title="Guardar">
+                        <i class="ri-save-line"></i>
+                    </button>
+                    <button class="action-button" title="Exportar">
+                        <i class="ri-download-line"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="flowchart-content">
+                <div class="flowchart-toolbar">
+                    <div class="toolbar-section">
+                        <button class="toolbar-button" title="Inicio">
+                            <i class="ri-circle-line"></i>
+                        </button>
+                        <button class="toolbar-button" title="Proceso">
+                            <i class="ri-square-line"></i>
+                        </button>
+                        <button class="toolbar-button" title="Decisión">
+                            <i class="ri-diamond-line"></i>
+                        </button>
+                        <button class="toolbar-button" title="Entrada/Salida">
+                            <i class="ri-parallelogram-line"></i>
+                        </button>
+                        <button class="toolbar-button" title="Conectar">
+                            <i class="ri-link"></i>
+                        </button>
+                        <button class="toolbar-button" title="Texto">
+                            <i class="ri-text"></i>
+                        </button>
+                    </div>
+                    <div class="toolbar-section">
+                        <button class="toolbar-button" title="Borrar">
+                            <i class="ri-delete-bin-line"></i>
+                        </button>
+                        <button class="toolbar-button" title="Deshacer">
+                            <i class="ri-arrow-go-back-line"></i>
+                        </button>
+                        <button class="toolbar-button" title="Rehacer">
+                            <i class="ri-arrow-go-forward-line"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="flowchart-canvas" id="flowchart-canvas">
+                    <!-- El canvas del diagrama se renderizará aquí -->
+                    <div class="zoom-controls">
+                        <button class="zoom-button" title="Acercar" onclick="zoomIn()">
+                            <i class="ri-zoom-in-line"></i>
+                        </button>
+                        <button class="zoom-button" title="Alejar" onclick="zoomOut()">
+                            <i class="ri-zoom-out-line"></i>
+                        </button>
+                        <button class="zoom-button" title="Restablecer zoom" onclick="resetZoom()">
+                            <i class="ri-fullscreen-line"></i>
+                        </button>
+                    </div>
+                    <div class="grid-controls">
+                        <button class="grid-button active" title="Mostrar cuadrícula" onclick="toggleGrid()">
+                            <i class="ri-grid-line"></i>
+                        </button>
+                        <button class="grid-button" title="Alinear a cuadrícula" onclick="toggleSnapToGrid()">
+                            <i class="ri-layout-grid-line"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="flowchart-properties">
+                    <h4>Propiedades</h4>
+                    <div class="properties-content">
+                        <div class="property-group">
+                            <label>Texto</label>
+                            <input type="text" class="property-input" id="node-text">
+                        </div>
+                        <div class="property-group">
+                            <label>Color</label>
+                            <input type="color" class="property-input" id="node-color">
+                        </div>
+                        <div class="property-group">
+                            <label>Borde</label>
+                            <input type="number" class="property-input" id="node-border" min="1" max="5">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Panel de estado -->
         <div class="status-bar">
             <div class="status-left">
@@ -287,14 +376,216 @@
         </div>
     </div>
 
+    <div class="NoImplementado" style="display: none;">
+        <div class="no-implementado-container">
+            <i class="ri-tools-line"></i>
+            <h2>Lo Sentimos</h2>
+            <p>Esta función está actualmente en desarrollo</p>
+            <p class="no-implementado-subtitle">Estamos trabajando para implementar esta característica pronto</p>
+            <i class="ri-arrow-right-circle-line"></i>
+        </div>
+    </div>
+
     <!-- Monaco Editor Script -->
     <script>var require = { paths: { 'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.36.1/min/vs' } };</script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.36.1/min/vs/loader.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.36.1/min/vs/editor/editor.main.nls.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.36.1/min/vs/editor/editor.main.js"></script>
 
-    <script>
+    <!-- Importar el módulo de diagrama de flujo -->
+    <script type="module">
+        import { initFlowchart } from './TypeScript/DiagramaFlujo.js';
+        window.initFlowchart = initFlowchart;
+    </script>
 
+    <script>
+        // Variables globales
+        let selectedNode = null;
+        let isDragging = false;
+        let startX, startY;
+        let currentNodeType = null;
+        let nodes = [];
+        let connections = [];
+        let currentZoom = 1;
+        let isGridVisible = true;
+        let isSnapToGrid = false;
+        let gridSize = 20;
+        let history = [];
+        let historyIndex = -1;
+
+        // Funciones de historial
+        function saveState() {
+            const state = {
+                nodes: nodes.map(node => ({
+                    type: node.type,
+                    x: node.x,
+                    y: node.y,
+                    text: node.element.querySelector('.node-content').textContent,
+                    color: node.element.style.backgroundColor,
+                    border: node.element.style.borderWidth
+                })),
+                connections: connections.map(conn => ({
+                    source: nodes.indexOf(conn.source),
+                    target: nodes.indexOf(conn.target)
+                }))
+            };
+            
+            history = history.slice(0, historyIndex + 1);
+            history.push(state);
+            historyIndex++;
+        }
+
+        function undo() {
+            if (historyIndex > 0) {
+                historyIndex--;
+                restoreState(history[historyIndex]);
+            }
+        }
+
+        function redo() {
+            if (historyIndex < history.length - 1) {
+                historyIndex++;
+                restoreState(history[historyIndex]);
+            }
+        }
+
+        function restoreState(state) {
+            // Limpiar el canvas
+            const canvas = document.getElementById('flowchart-canvas');
+            canvas.innerHTML = '';
+            nodes = [];
+            connections = [];
+
+            // Restaurar nodos
+            state.nodes.forEach(nodeData => {
+                const node = createNode(nodeData.type, nodeData.x, nodeData.y);
+                node.querySelector('.node-content').textContent = nodeData.text;
+                node.style.backgroundColor = nodeData.color;
+                node.style.borderWidth = nodeData.border;
+            });
+
+            // Restaurar conexiones
+            state.connections.forEach(connData => {
+                createConnection(nodes[connData.source], nodes[connData.target]);
+            });
+        }
+
+        // Función para crear conexiones
+        function createConnection(sourceNode, targetNode) {
+            const connection = document.createElement('div');
+            connection.className = 'flowchart-connection';
+            
+            const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+            svg.style.width = '100%';
+            svg.style.height = '100%';
+            svg.style.position = 'absolute';
+            svg.style.top = '0';
+            svg.style.left = '0';
+            
+            const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            path.className = 'connection-path';
+            
+            const arrow = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
+            arrow.className = 'connection-arrow';
+            arrow.setAttribute('points', '0,0 10,5 0,10');
+            
+            svg.appendChild(path);
+            svg.appendChild(arrow);
+            connection.appendChild(svg);
+            
+            document.getElementById('flowchart-canvas').appendChild(connection);
+            
+            const connectionData = {
+                element: connection,
+                source: sourceNode,
+                target: targetNode,
+                path: path,
+                arrow: arrow
+            };
+            
+            connections.push(connectionData);
+            updateConnectionPath(path, arrow, sourceNode.element, targetNode.element);
+            
+            return connectionData;
+        }
+
+        // Función para actualizar la ruta de conexión
+        function updateConnectionPath(path, arrow, source, target) {
+            const sourceRect = source.getBoundingClientRect();
+            const targetRect = target.getBoundingClientRect();
+            const canvasRect = document.getElementById('flowchart-canvas').getBoundingClientRect();
+            
+            const sourceX = sourceRect.left + sourceRect.width / 2 - canvasRect.left;
+            const sourceY = sourceRect.top + sourceRect.height / 2 - canvasRect.top;
+            const targetX = targetRect.left + targetRect.width / 2 - canvasRect.left;
+            const targetY = targetRect.top + targetRect.height / 2 - canvasRect.top;
+            
+            const dx = targetX - sourceX;
+            const dy = targetY - sourceY;
+            const angle = Math.atan2(dy, dx);
+            
+            const pathData = `M ${sourceX} ${sourceY} L ${targetX} ${targetY}`;
+            path.setAttribute('d', pathData);
+            
+            arrow.setAttribute('transform', `translate(${targetX},${targetY}) rotate(${angle * 180 / Math.PI})`);
+        }
+
+        // Modificar la función createNode para guardar el estado
+        function createNode(type, x, y) {
+            const node = document.createElement('div');
+            node.className = `flowchart-node ${type}`;
+            node.style.left = `${x}px`;
+            node.style.top = `${y}px`;
+
+            const content = document.createElement('div');
+            content.className = 'node-content';
+            content.textContent = getDefaultText(type);
+            node.appendChild(content);
+
+            document.getElementById('flowchart-canvas').appendChild(node);
+            
+            const nodeData = {
+                element: node,
+                type: type,
+                x: x,
+                y: y,
+                connections: []
+            };
+            
+            nodes.push(nodeData);
+            saveState();
+            return node;
+        }
+
+        // Modificar la función handleCanvasMouseUp para guardar el estado
+        function handleCanvasMouseUp() {
+            if (isDragging && selectedNode) {
+                isDragging = false;
+                const node = nodes.find(n => n.element === selectedNode);
+                if (node) {
+                    node.x = parseInt(selectedNode.style.left);
+                    node.y = parseInt(selectedNode.style.top);
+                    saveState();
+                }
+            }
+        }
+
+        // Agregar event listeners para deshacer/rehacer
+        document.addEventListener('keydown', (e) => {
+            if (e.ctrlKey || e.metaKey) {
+                if (e.key === 'z') {
+                    e.preventDefault();
+                    if (e.shiftKey) {
+                        redo();
+                    } else {
+                        undo();
+                    }
+                } else if (e.key === 'y') {
+                    e.preventDefault();
+                    redo();
+                }
+            }
+        });
 
         // Agregar variable para la vista actual
         let currentView = 'explorer';
@@ -666,73 +957,14 @@
                     sidebar.style.display = 'block';
                     sidebarHeader.textContent = 'COPILOT';
                     if (copilot) copilot.style.display = 'flex';
-                    sidebar.querySelector('.sidebar-content').innerHTML = `
-                        <div class="copilot-content">
-                            <div class="copilot-header">
-                                <div class="copilot-logo">
-                                    <img src="copilot-logo.png" alt="GitHub Copilot Logo">
-                                    <span>GitHub Copilot</span>
-                                </div>
-                                <div class="copilot-header-actions">
-                                    <button class="copilot-header-button" title="Nueva conversación">
-                                        <i class="ri-add-line"></i>
-                                    </button>
-                                    <button class="copilot-header-button" title="Configuración">
-                                        <i class="ri-settings-3-line"></i>
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="copilot-chat-messages" id="copilot-messages">
-                                <div class="copilot-message">
-                                    <div class="copilot-message-avatar">
-                                        <i class="ri-copilot-line"></i>
-                                    </div>
-                                    <div class="copilot-message-content">
-                                        <p>¡Hola! Soy GitHub Copilot. ¿En qué puedo ayudarte hoy?</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="copilot-suggestions">
-                                <div class="copilot-suggestion-item">
-                                    <div class="copilot-suggestion-icon">
-                                        <i class="ri-code-box-line"></i>
-                                    </div>
-                                    <div class="copilot-suggestion-content">
-                                        <div class="copilot-suggestion-title">Generar código</div>
-                                        <div class="copilot-suggestion-description">Sugerencias de código basadas en tu contexto</div>
-                                    </div>
-                                </div>
-                                <div class="copilot-suggestion-item">
-                                    <div class="copilot-suggestion-icon">
-                                        <i class="ri-question-line"></i>
-                                    </div>
-                                    <div class="copilot-suggestion-content">
-                                        <div class="copilot-suggestion-title">Explicar código</div>
-                                        <div class="copilot-suggestion-description">Obtén explicaciones detalladas de tu código</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="copilot-quick-actions">
-                                <button class="copilot-quick-action">
-                                    <i class="ri-code-box-line"></i> Generar función
-                                </button>
-                                <button class="copilot-quick-action">
-                                    <i class="ri-question-line"></i> Explicar código
-                                </button>
-                                <button class="copilot-quick-action">
-                                    <i class="ri-bug-line"></i> Depurar
-                                </button>
-                            </div>
-                            <div class="copilot-chat-input-container">
-                                <div class="copilot-chat-input-wrapper">
-                                    <textarea class="copilot-chat-input" id="copilot-input" placeholder="Escribe un mensaje o describe lo que necesitas..."></textarea>
-                                    <button class="copilot-send-button" onclick="sendCopilotMessage()">
-                                        <i class="ri-send-plane-fill"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    `;
+                    break;
+                case 'flowchart':
+                    sidebar.style.display = 'none';
+                    const flowchartPanel = document.querySelector('.flowchart-panel');
+                    if (flowchartPanel) {
+                        flowchartPanel.style.display = 'flex';
+                        initFlowchart(); // Inicializar el editor de diagramas
+                    }
                     break;
                 default:
                     sidebar.style.display = 'none';
@@ -1184,6 +1416,221 @@
                     toggleBreakpoint(position.lineNumber);
                 }
             }
+        });
+    </script>
+
+    <!-- Script para Diagramas de Flujo -->
+    <script>
+        // Variables globales
+        let selectedNode = null;
+        let isDragging = false;
+        let startX, startY;
+        let currentNodeType = null;
+        let nodes = [];
+        let connections = [];
+        let currentZoom = 1;
+        let isGridVisible = true;
+        let isSnapToGrid = false;
+        let gridSize = 20;
+
+        // Funciones de zoom
+        function zoomIn() {
+            if (currentZoom < 2) {
+                currentZoom += 0.1;
+                updateZoom();
+            }
+        }
+
+        function zoomOut() {
+            if (currentZoom > 0.5) {
+                currentZoom -= 0.1;
+                updateZoom();
+            }
+        }
+
+        function resetZoom() {
+            currentZoom = 1;
+            updateZoom();
+        }
+
+        function updateZoom() {
+            const canvas = document.getElementById('flowchart-canvas');
+            canvas.style.transform = `scale(${currentZoom})`;
+            canvas.style.transformOrigin = 'center center';
+        }
+
+        // Funciones de cuadrícula
+        function toggleGrid() {
+            isGridVisible = !isGridVisible;
+            const canvas = document.getElementById('flowchart-canvas');
+            if (isGridVisible) {
+                canvas.style.backgroundImage = `
+                    linear-gradient(rgba(128, 128, 128, 0.1) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(128, 128, 128, 0.1) 1px, transparent 1px)
+                `;
+                canvas.style.backgroundSize = `${gridSize}px ${gridSize}px`;
+            } else {
+                canvas.style.backgroundImage = 'none';
+            }
+            document.querySelector('.grid-button[title="Mostrar cuadrícula"]').classList.toggle('active');
+        }
+
+        function toggleSnapToGrid() {
+            isSnapToGrid = !isSnapToGrid;
+            document.querySelector('.grid-button[title="Alinear a cuadrícula"]').classList.toggle('active');
+        }
+
+        // Función para alinear a la cuadrícula
+        function snapToGrid(value) {
+            if (!isSnapToGrid) return value;
+            return Math.round(value / gridSize) * gridSize;
+        }
+
+        // Modificar la función handleCanvasMouseMove para incluir el snap to grid
+        function handleCanvasMouseMove(e) {
+            if (isDragging && selectedNode) {
+                const x = snapToGrid(e.clientX - startX);
+                const y = snapToGrid(e.clientY - startY);
+                selectedNode.style.left = `${x}px`;
+                selectedNode.style.top = `${y}px`;
+                updateConnections(selectedNode);
+            }
+        }
+
+        // Modificar la función handleCanvasClick para incluir el snap to grid
+        function handleCanvasClick(e) {
+            if (e.target.id === 'flowchart-canvas' && currentNodeType) {
+                const rect = e.target.getBoundingClientRect();
+                const x = snapToGrid(e.clientX - rect.left);
+                const y = snapToGrid(e.clientY - rect.top);
+                createNode(currentNodeType, x, y);
+            }
+        }
+
+        // Inicializar el canvas
+        function initFlowchart() {
+            const canvas = document.getElementById('flowchart-canvas');
+            if (!canvas) return;
+
+            // Event listeners para los botones de la barra de herramientas
+            document.querySelectorAll('.toolbar-button').forEach(button => {
+                button.addEventListener('click', () => {
+                    document.querySelectorAll('.toolbar-button').forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    currentNodeType = button.getAttribute('title').toLowerCase();
+                });
+            });
+
+            // Event listeners para el canvas
+            canvas.addEventListener('mousedown', handleCanvasMouseDown);
+            canvas.addEventListener('mousemove', handleCanvasMouseMove);
+            canvas.addEventListener('mouseup', handleCanvasMouseUp);
+            canvas.addEventListener('click', handleCanvasClick);
+
+            // Event listeners para los inputs de propiedades
+            document.getElementById('node-text').addEventListener('input', updateNodeText);
+            document.getElementById('node-color').addEventListener('input', updateNodeColor);
+            document.getElementById('node-border').addEventListener('input', updateNodeBorder);
+
+            // Inicializar la cuadrícula
+            toggleGrid();
+        }
+
+        // Crear un nuevo nodo
+        function createNode(type, x, y) {
+            const node = document.createElement('div');
+            node.className = `flowchart-node ${type}`;
+            node.style.left = `${x}px`;
+            node.style.top = `${y}px`;
+
+            const content = document.createElement('div');
+            content.className = 'node-content';
+            content.textContent = getDefaultText(type);
+            node.appendChild(content);
+
+            document.getElementById('flowchart-canvas').appendChild(node);
+            nodes.push({
+                element: node,
+                type: type,
+                x: x,
+                y: y,
+                connections: []
+            });
+
+            return node;
+        }
+
+        // Obtener texto por defecto según el tipo de nodo
+        function getDefaultText(type) {
+            switch(type) {
+                case 'inicio': return 'Inicio';
+                case 'proceso': return 'Proceso';
+                case 'decisión': return '¿Decisión?';
+                case 'entrada/salida': return 'Entrada/Salida';
+                default: return 'Nodo';
+            }
+        }
+
+        // Manejadores de eventos del canvas
+        function handleCanvasMouseDown(e) {
+            if (e.target.classList.contains('flowchart-node')) {
+                selectedNode = e.target;
+                isDragging = true;
+                startX = e.clientX - selectedNode.offsetLeft;
+                startY = e.clientY - selectedNode.offsetTop;
+                selectedNode.classList.add('selected');
+            }
+        }
+
+        function handleCanvasMouseUp() {
+            if (isDragging && selectedNode) {
+                isDragging = false;
+                const node = nodes.find(n => n.element === selectedNode);
+                if (node) {
+                    node.x = parseInt(selectedNode.style.left);
+                    node.y = parseInt(selectedNode.style.top);
+                    saveState();
+                }
+            }
+        }
+
+        // Actualizar propiedades del nodo
+        function updateNodeText(e) {
+            if (selectedNode) {
+                selectedNode.querySelector('.node-content').textContent = e.target.value;
+            }
+        }
+
+        function updateNodeColor(e) {
+            if (selectedNode) {
+                selectedNode.style.backgroundColor = e.target.value;
+            }
+        }
+
+        function updateNodeBorder(e) {
+            if (selectedNode) {
+                selectedNode.style.borderWidth = `${e.target.value}px`;
+            }
+        }
+
+        // Actualizar conexiones
+        function updateConnections(node) {
+            const nodeData = nodes.find(n => n.element === node);
+            if (!nodeData) return;
+
+            nodeData.connections.forEach(conn => {
+                const path = conn.element.querySelector('.connection-path');
+                const arrow = conn.element.querySelector('.connection-arrow');
+                updateConnectionPath(path, arrow, node, conn.target);
+            });
+        }
+
+        // Inicializar cuando se carga la página
+        document.addEventListener('DOMContentLoaded', () => {
+            // Inicializar el editor de diagramas cuando se cambia a la vista de flowchart
+            document.querySelector('[data-view="flowchart"]').addEventListener('click', () => {
+                setTimeout(initFlowchart, 100);
+            });
         });
     </script>
 </body>

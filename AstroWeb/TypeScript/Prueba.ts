@@ -67,7 +67,7 @@ interface IMensajeChat {
  * @interface IConfiguracionChat
  */
 interface IConfiguracionChat {
-    readonly tema: TemaChat;
+    tema: TemaChat;
     readonly sonido: boolean;
     readonly notificaciones: boolean;
 }
@@ -84,6 +84,12 @@ class ChatManager {
             sonido: true,
             notificaciones: true
         };
+        
+        if (this.configuracion.tema === TemaChat.OSCURO) {
+            this.configuracion.tema = TemaChat.CLARO;
+        } else {
+            this.configuracion.tema = TemaChat.OSCURO;
+        }
     }
 
     public static getInstance(): ChatManager {
@@ -121,6 +127,7 @@ class ChatManager {
     /**
      * Actualiza la configuración del chat
      * @param nuevaConfig - Nueva configuración
+     * 
      */
     public actualizarConfiguracion(nuevaConfig: Partial<IConfiguracionChat>): void {
         this.configuracion = { ...this.configuracion, ...nuevaConfig };
