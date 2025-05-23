@@ -26,7 +26,6 @@
     <div class="feature">
         <h2>Crear interfaces de usuario a partir de componentes</h2>
         <p>Nuestro stack te permite construir interfaces de usuario a partir de piezas individuales llamadas componentes. Crea tus propios componentes como `Thumbnail`, `LikeButton`, y `Video`. Luego combínalos en pantallas, páginas y aplicaciones completas.</p>
-
 </div>
 
 <div class="tech-container">
