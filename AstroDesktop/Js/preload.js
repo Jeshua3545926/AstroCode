@@ -14,6 +14,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
     
     // Código
     runCode: () => ipcRenderer.send('run-code'),
+    runAll: () => ipcRenderer.send('run-all'),
     toggleTheme: () => ipcRenderer.send('toggle-theme'),
     
     // Sistema

@@ -250,15 +250,19 @@ body {
 }
 
 .console-message.info {
-    color: #4ec9b0;
+    color: #007acc;
 }
 
 .console-message.error {
-    color: #f44747;
+    color: #f44336;
 }
 
 .console-message.warning {
-    color: #ce9178;
+    color: #ff9800;
+}
+
+.console-message.success {
+    color: #4caf50;
 }
 
 /* Problemas */
@@ -299,6 +303,56 @@ body {
 .output-message {
     margin-bottom: 4px;
     padding: 2px 0;
+}
+
+/* Estilos para botones en la salida */
+.btn-remove-css {
+    background: #f44336;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    margin-top: 8px;
+    transition: background 0.2s;
+}
+
+.btn-remove-css:hover {
+    background: #d32f2f;
+}
+
+/* Mejoras en los mensajes de salida */
+.output-message.success {
+    color: #4caf50;
+    background: rgba(76, 175, 80, 0.1);
+    padding: 8px;
+    border-radius: 4px;
+    margin: 4px 0;
+}
+
+.output-message.error {
+    color: #f44336;
+    background: rgba(244, 67, 54, 0.1);
+    padding: 8px;
+    border-radius: 4px;
+    margin: 4px 0;
+}
+
+.output-message.warning {
+    color: #ff9800;
+    background: rgba(255, 152, 0, 0.1);
+    padding: 8px;
+    border-radius: 4px;
+    margin: 4px 0;
+}
+
+.output-message.info {
+    color: #2196f3;
+    background: rgba(33, 150, 243, 0.1);
+    padding: 8px;
+    border-radius: 4px;
+    margin: 4px 0;
 }
 
 /* Barra de estado */
