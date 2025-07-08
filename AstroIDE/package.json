@@ -1,0 +1,23 @@
+{
+  "name": "astroide",
+  "version": "1.0.0",
+  "description": "Editor de código funcional con Monaco Editor",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx http-server -p 3000 -o",
+    "dev": "npx live-server --port=3000 --open=/index.html"
+  },
+  "keywords": [
+    "editor",
+    "monaco",
+    "ide",
+    "javascript",
+    "code"
+  ],
+  "author": "AstroIDE Team",
+  "license": "MIT",
+  "devDependencies": {
+    "http-server": "^14.1.1",
+    "live-server": "^1.2.2"
+  }
+} 

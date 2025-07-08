@@ -3,11 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval' https: data: blob:">
     <title>AstroIDE - Editor de Código</title>
     <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="../Style/style.css">
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
     <div class="ide-container">
@@ -116,28 +115,8 @@
         </div>
     </div>
 
-    <!-- Monaco Editor - Configuración para Electron -->
-    <script>
-        // Configuración global para Monaco en Electron
-        window.MonacoEnvironment = {
-            getWorkerUrl: function (moduleId, label) {
-                if (label === 'json') {
-                    return 'https://unpkg.com/monaco-editor@0.45.0/min/vs/language/json/json.worker.js';
-                }
-                if (label === 'css' || label === 'scss' || label === 'less') {
-                    return 'https://unpkg.com/monaco-editor@0.45.0/min/vs/language/css/css.worker.js';
-                }
-                if (label === 'html' || label === 'handlebars' || label === 'razor') {
-                    return 'https://unpkg.com/monaco-editor@0.45.0/min/vs/language/html/html.worker.js';
-                }
-                if (label === 'typescript' || label === 'javascript') {
-                    return 'https://unpkg.com/monaco-editor@0.45.0/min/vs/language/typescript/ts.worker.js';
-                }
-                return 'https://unpkg.com/monaco-editor@0.45.0/min/vs/editor/editor.worker.js';
-            }
-        };
-    </script>
+    <!-- Monaco Editor -->
     <script src="https://unpkg.com/monaco-editor@0.45.0/min/vs/loader.js"></script>
-    <script src="../Js/ide.js"></script>
+    <script src="js/ide.js"></script>
 </body>
 </html> 

@@ -4,16 +4,25 @@
   "description": "Astro",
   "main": "Js/main.js",
   "scripts": {
-    "start": "electron .",
+    "start": "electronmon .",
+    "dev": "electronmon .",
     "build": "electron-builder --win --x64"
   },
   "dependencies": {
+    "electronmon": "^2.0.3",
     "monaco-editor": "^0.36.1"
   },
   "devDependencies": {
     "electron": "^29.0.0",
     "electron-builder": "^24.9.1"
   },
+  "keywords": [
+    "editor",
+    "monaco",
+    "ide",
+    "javascript",
+    "code"
+  ],
   "build": {
     "appId": "com.astro.editor",
     "productName": "Astro Editor",

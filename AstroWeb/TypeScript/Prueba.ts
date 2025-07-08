@@ -90,7 +90,7 @@ class ChatManager {
         if (!ChatManager.instance) {
             ChatManager.instance = new ChatManager();
         }
-        return ChatManager.instance;
+        return ChatManager.instance; 
     }
 
     /**
@@ -102,7 +102,7 @@ class ChatManager {
     public agregarMensaje(texto: string, tipo: TipoMensaje): IMensajeChat {
         const nuevoMensaje: IMensajeChat = {
             id: this.mensajes.length + 1,
-            texto,
+            texto,  
             tipo,
             timestamp: new Date()
         };
