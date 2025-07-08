@@ -14,11 +14,14 @@
         <!-- Barra de herramientas superior -->
         <div class="toolbar">
             <div class="toolbar-left">
+                <button class="toolbar-btn" id="openFolderBtn" title="Abrir carpeta">
+                    <i class="fas fa-folder-open"></i>
+                </button>
                 <button class="toolbar-btn" id="newFileBtn" title="Nuevo archivo">
                     <i class="fas fa-file"></i>
                 </button>
                 <button class="toolbar-btn" id="openFileBtn" title="Abrir archivo">
-                    <i class="fas fa-folder-open"></i>
+                    <i class="fas fa-file-open"></i>
                 </button>
                 <button class="toolbar-btn" id="saveFileBtn" title="Guardar archivo">
                     <i class="fas fa-save"></i>
@@ -28,6 +31,12 @@
                 <span class="ide-title">AstroIDE</span>
             </div>
             <div class="toolbar-right">
+                <button class="toolbar-btn" id="npmInstallBtn" title="Instalar paquetes npm">
+                    <i class="fas fa-download"></i>
+                </button>
+                <button class="toolbar-btn" id="startServerBtn" title="Iniciar servidor Node.js">
+                    <i class="fas fa-server"></i>
+                </button>
                 <button class="toolbar-btn" id="runAllBtn" title="Ejecutar proyecto completo">
                     <i class="fas fa-rocket"></i>
                 </button>
@@ -36,7 +45,7 @@
                 </button>
                 <button class="toolbar-btn" id="themeBtn" title="Cambiar tema">
                     <i class="fas fa-palette"></i>
-                </button>
+                </button> 
             </div>
         </div>
 
@@ -46,32 +55,18 @@
                 <h3>Explorador</h3>
                 <button class="sidebar-btn" id="refreshBtn" title="Actualizar">
                     <i class="fas fa-sync-alt"></i>
-                </button>
+                    </button>
             </div>
             <div class="file-explorer" id="fileExplorer">
-                <div class="file-item active" data-file="main.js">
-                    <i class="fas fa-file-code"></i>
-                    <span>main.js</span>
-                </div>
-                <div class="file-item" data-file="style.css">
-                    <i class="fas fa-file-code"></i>
-                    <span>style.css</span>
-                </div>
-                <div class="file-item" data-file="index.html">
-                    <i class="fas fa-file-code"></i>
-                    <span>index.html</span>
-                </div>
+                <!-- El explorador se generará dinámicamente -->
             </div>
         </div>
 
         <!-- Área principal del editor -->
         <div class="editor-area">
-            <div class="editor-tabs" id="editorTabs">
-                <div class="tab active" data-file="main.js">
-                    <span>main.js</span>
-                    <button class="tab-close" data-file="main.js">×</button>
-                </div>
-            </div>
+            <!-- <div class="editor-tabs" id="tabs-container">
+                Las pestañas se generarán dinámicamente
+            </div> -->
             <div class="editor-container">
                 <div id="monaco-editor"></div>
             </div>
@@ -107,16 +102,7 @@
         </div>
 
         <!-- Barra de estado -->
-        <div class="status-bar">
-            <div class="status-left">
-                <span id="currentFile">main.js</span>
-                <span id="language">JavaScript</span>
-            </div>
-            <div class="status-right">
-                <span id="cursorPosition">Ln 1, Col 1</span>
-                <span id="encoding">UTF-8</span>
-            </div>
-        </div>
+        
     </div>
 
     <!-- Monaco Editor - Configuración para Electron -->
@@ -141,6 +127,7 @@
         };
     </script>
     <script src="https://unpkg.com/monaco-editor@0.45.0/min/vs/loader.js"></script>
+    <script src="../Js/language-config.js"></script>
     <script src="../Js/ide.js"></script>
 </body>
-</html> 
+</html>

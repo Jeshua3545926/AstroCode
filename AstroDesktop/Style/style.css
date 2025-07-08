@@ -6,7 +6,7 @@
 
 body {
     font-family: 'Fira Code', 'Consolas', monospace;
-    background: #1e1e1e;
+    background: #0c0c0c;
     color: #d4d4d4;
     overflow: hidden;
     height: 100vh;
@@ -17,7 +17,7 @@ body {
     display: flex;
     flex-direction: column;
     height: 100vh;
-    background: #1e1e1e;
+    background: #181818;
 }
 
 /* Barra de herramientas superior */
@@ -25,7 +25,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: #2d2d30;
+    background: #131313;
     border-bottom: 1px solid #3e3e42;
     padding: 8px 16px;
     height: 40px;
@@ -44,7 +44,7 @@ body {
 .ide-title {
     font-size: 16px;
     font-weight: 600;
-    color: #007acc;
+    color: #ffffff;
 }
 
 .toolbar-btn {
@@ -69,9 +69,12 @@ body {
     top: 40px;
     bottom: 200px;
     width: 250px;
-    background: #252526;
+    background: #101010;
     border-right: 1px solid #3e3e42;
     z-index: 10;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
 }
 
 .sidebar-header {
@@ -80,7 +83,7 @@ body {
     align-items: center;
     padding: 12px 16px;
     border-bottom: 1px solid #3e3e42;
-    background: #2d2d30;
+    background: #181818;
 }
 
 .sidebar-header h3 {
@@ -98,11 +101,14 @@ body {
 }
 
 .sidebar-btn:hover {
-    background: #3e3e42;
+    background: #0d0d0d;
 }
 
 .file-explorer {
     padding: 8px 0;
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .file-item {
@@ -142,6 +148,8 @@ body {
     background: #2d2d30;
     border-bottom: 1px solid #3e3e42;
     height: 35px;
+    overflow-x: auto;
+    overflow-y: hidden;
 }
 
 .tab {
@@ -154,11 +162,31 @@ body {
     cursor: pointer;
     min-width: 120px;
     position: relative;
+    white-space: nowrap;
+    flex-shrink: 0;
+    transition: all 0.2s ease;
+}
+
+.tab:hover {
+    background: #2a2d2e;
+}
+
+.tab-title {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.tab-modified {
+    color: #007acc;
+    font-weight: bold;
+    margin-right: 4px;
 }
 
 .tab.active {
-    background: #1e1e1e;
+    background: #2d2d30;
     border-bottom: 2px solid #007acc;
+    color: #ffffff;
 }
 
 .tab-close {
@@ -166,13 +194,19 @@ body {
     border: none;
     color: #cccccc;
     cursor: pointer;
-    padding: 2px 4px;
-    border-radius: 2px;
+    padding: 2px 6px;
+    border-radius: 3px;
     margin-left: auto;
+    font-size: 14px;
+    font-weight: bold;
+    transition: all 0.2s ease;
+    opacity: 0.7;
 }
 
 .tab-close:hover {
-    background: #3e3e42;
+    background: #c42b1c;
+    color: #ffffff;
+    opacity: 1;
 }
 
 .editor-container {
@@ -184,6 +218,8 @@ body {
     width: 100%;
     height: 100%;
 }
+
+
 
 /* Panel inferior */
 .bottom-panel {
@@ -198,7 +234,7 @@ body {
 
 .panel-tabs {
     display: flex;
-    background: #2d2d30;
+
     border-bottom: 1px solid #3e3e42;
     height: 35px;
 }
@@ -449,4 +485,378 @@ body {
 
 ::-webkit-scrollbar-thumb:hover {
     background: #4f4f4f;
+}
+
+/* Estados especiales */
+.resultado.error {
+    border-left-color: #dc3545;
+    background: #f8d7da;
+    color: #721c24;
+}
+
+.resultado.success {
+    border-left-color: #28a745;
+    background: #d4edda;
+    color: #155724;
+}
+
+/* Estilos para código de salida */
+.code-output {
+    background: #1e1e1e;
+    color: #d4d4d4;
+    padding: 15px;
+    border-radius: 6px;
+    font-family: 'Fira Code', 'Consolas', monospace;
+    font-size: 12px;
+    line-height: 1.4;
+    overflow-x: auto;
+    white-space: pre-wrap;
+    margin: 10px 0;
+    border: 1px solid #3e3e42;
+}
+
+.code-output.error {
+    background: #2d1b1b;
+    color: #f44336;
+    border-color: #dc3545;
+}
+
+/* Iconos específicos para Node.js */
+.fa-server {
+    color: #68a063;
+}
+
+.fab.fa-node-js {
+    color: #68a063;
+}
+
+/* Botones específicos para Node.js */
+.toolbar-btn#npmInstallBtn:hover {
+    background: #68a063;
+    color: white;
+}
+
+.toolbar-btn#startServerBtn:hover {
+    background: #68a063;
+    color: white;
+}
+
+/* Explorador de archivos mejorado */
+.explorer-actions {
+    display: flex;
+    gap: 4px;
+    padding: 8px 16px;
+    border-bottom: 1px solid #3e3e42;
+    background: #2d2d30;
+}
+
+.explorer-btn {
+    background: transparent;
+    border: none;
+    color: #cccccc;
+    padding: 6px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 12px;
+}
+
+.explorer-btn:hover {
+    background: #3e3e42;
+    color: #ffffff;
+}
+
+.file-item, .folder-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    cursor: pointer;
+    transition: background 0.2s;
+    position: relative;
+}
+
+.file-item:hover, .folder-item:hover {
+    background: #2a2d2e;
+}
+
+.file-item.active {
+    background: #094771;
+    color: #ffffff;
+}
+
+.file-item i, .folder-item i {
+    width: 16px;
+    color: #007acc;
+}
+
+.folder-item i {
+    color: #ffd700;
+}
+
+.file-delete-btn, .folder-delete-btn {
+    background: transparent;
+    border: none;
+    color: #cccccc;
+    cursor: pointer;
+    padding: 2px 6px;
+    border-radius: 3px;
+    margin-left: auto;
+    opacity: 0;
+    transition: all 0.2s;
+}
+
+.file-item:hover .file-delete-btn,
+.folder-item:hover .folder-delete-btn {
+    opacity: 1;
+}
+
+.file-delete-btn:hover, .folder-delete-btn:hover {
+    background: #f44336;
+    color: white;
+}
+
+/* Iconos específicos por tipo de archivo */
+.fab.fa-html5 {
+    color: #e34c26;
+}
+
+.fab.fa-css3-alt {
+    color: #264de4;
+}
+
+.fab.fa-js-square {
+    color: #f7df1e;
+}
+
+.fab.fa-node-js {
+    color: #68a063;
+}
+
+.fas.fa-file-alt {
+    color: #6c757d;
+}
+
+.fas.fa-file-image {
+    color: #28a745;
+}
+
+/* Animaciones para el explorador */
+.file-item, .folder-item {
+    animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Inputs para crear archivos y carpetas */
+.new-file-input, .new-folder-input {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: #2a2d2e;
+    border: 1px solid #007acc;
+    border-radius: 4px;
+    margin: 4px 8px;
+    animation: slideIn 0.2s ease-out;
+}
+
+.new-file-input i, .new-folder-input i {
+    width: 16px;
+    color: #007acc;
+}
+
+.new-folder-input i {
+    color: #ffd700;
+}
+
+.file-name-input, .folder-name-input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: #d4d4d4;
+    font-family: 'Fira Code', 'Consolas', monospace;
+    font-size: 13px;
+    outline: none;
+    padding: 2px 4px;
+}
+
+.file-name-input::placeholder, .folder-name-input::placeholder {
+    color: #6c757d;
+}
+
+.create-btn, .cancel-btn {
+    background: transparent;
+    border: none;
+    color: #cccccc;
+    cursor: pointer;
+    padding: 4px 6px;
+    border-radius: 3px;
+    font-size: 12px;
+    transition: all 0.2s;
+}
+
+.create-btn:hover {
+    background: #28a745;
+    color: white;
+}
+
+.cancel-btn:hover {
+    background: #dc3545;
+    color: white;
+}
+
+/* Efecto de focus en el input */
+.new-file-input:focus-within, .new-folder-input:focus-within {
+    border-color: #007acc;
+    box-shadow: 0 0 0 1px #007acc;
+}
+
+/* Animación de entrada para los inputs */
+@keyframes inputSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.new-file-input, .new-folder-input {
+    animation: inputSlideIn 0.2s ease-out;
+}
+
+/* Estilos para explorador vacío */
+.empty-explorer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    text-align: center;
+    color: #888;
+}
+
+.empty-explorer i {
+    font-size: 48px;
+    margin-bottom: 16px;
+    color: #555;
+}
+
+.empty-explorer p {
+    font-size: 16px;
+    margin-bottom: 8px;
+    color: #ccc;
+}
+
+.empty-explorer small {
+    font-size: 12px;
+    color: #888;
+    line-height: 1.4;
+}
+
+/* Estilos para el sistema de árbol de archivos */
+.file-tree {
+    padding: 8px 0;
+}
+
+.tree-folder-item, .tree-file-item {
+    position: relative;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.tree-folder-item:hover, .tree-file-item:hover {
+    background: #2a2d2e;
+}
+
+.tree-item-content {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 16px;
+    position: relative;
+}
+
+.tree-expand-icon {
+    width: 12px;
+    color: #888;
+    cursor: pointer;
+    transition: transform 0.2s;
+    font-size: 10px;
+}
+
+.tree-expand-icon:hover {
+    color: #ccc;
+}
+
+.tree-folder-icon {
+    width: 16px;
+    color: #ffd700;
+}
+
+.tree-file-icon {
+    width: 16px;
+    color: #007acc;
+}
+
+.tree-item-name {
+    flex: 1;
+    font-size: 13px;
+    color: #d4d4d4;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.tree-delete-btn {
+    background: transparent;
+    border: none;
+    color: #cccccc;
+    cursor: pointer;
+    padding: 2px 6px;
+    border-radius: 3px;
+    opacity: 0;
+    transition: all 0.2s;
+    font-size: 10px;
+}
+
+.tree-folder-item:hover .tree-delete-btn,
+.tree-file-item:hover .tree-delete-btn {
+    opacity: 1;
+}
+
+.tree-delete-btn:hover {
+    background: #f44336;
+    color: white;
+}
+
+.tree-children {
+    border-left: 1px solid #3e3e42;
+    margin-left: 16px;
+}
+
+.tree-children .tree-folder-item,
+.tree-children .tree-file-item {
+    margin-left: 0;
+}
+
+/* Animación para expandir/contraer */
+.tree-children {
+    transition: all 0.3s ease;
+}
+
+.tree-expand-icon.fa-chevron-down {
+    transform: rotate(90deg);
 } 
