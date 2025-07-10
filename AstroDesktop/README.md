@@ -8,24 +8,23 @@ Un IDE moderno y funcional basado en Monaco Editor para desarrollo web, con sopo
 - **Monaco Editor** con resaltado de sintaxis completo
 - **Autocompletado inteligente** para JavaScript, CSS y HTML
 - **Detectión de errores** en tiempo real
-- **Múltiples temas** (claro/oscuro)
+- **Múltiples temas** 
 - **Fuente Fira Code** para mejor legibilidad
 
 ### 🗂️ **Gestión de Archivos**
 - **Explorador de archivos** lateral
-- **Sistema de pestañas** para múltiples archivos
 - **Nuevo archivo** (Ctrl+N)
 - **Abrir archivo** (Ctrl+O)
 - **Guardar archivo** (Ctrl+S)
 
-### 🚀 **Ejecución de Código**
+### 🚀 **Ejecución de Código Nativo del IDE**
 - **HTML**: Se abre en nueva ventana/pestaña
 - **CSS**: Se aplica en tiempo real al IDE
 - **JavaScript**: Se ejecuta con captura de console.log
+- **NodeJs**: Se ejecuta en el terminal
 - **Proyecto completo**: Combina HTML + CSS + JS
 
 ### 🎨 **Interfaz Moderna**
-- Diseño inspirado en VS Code
 - **Barra de herramientas** con botones funcionales
 - **Panel inferior** con consola, problemas y salida
 - **Barra de estado** con información del cursor
@@ -45,7 +44,7 @@ Un IDE moderno y funcional basado en Monaco Editor para desarrollo web, con sopo
 1. **HTML**: Haz clic en el botón ▶️ o presiona F6
 2. **CSS**: Se aplica automáticamente al IDE
 3. **JavaScript**: Se ejecuta en la consola integrada
-4. **Proyecto completo**: Presiona F5 o el botón 🚀
+4. **Entre otros lenguajes**
 
 ### **Navegación**
 - Usa el **explorador lateral** para cambiar entre archivos
@@ -161,6 +160,8 @@ npm run build
 - [ ] Debugger avanzado
 - [ ] Snippets de código
 - [ ] Búsqueda y reemplazo global
+- [ ] Inteligencia Artificial
+- [ ] MarketPlace (Vscodium)
 
 ## 📝 Licencia
 
