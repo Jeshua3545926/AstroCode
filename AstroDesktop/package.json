@@ -2,21 +2,42 @@
   "name": "astro",
   "version": "1.0.0",
   "description": "Astro",
-  "main": "Js/main.js",
+  "main": "./Js/main.js",
   "scripts": {
-    "start": "electron .",
+    "start": "electronmon .",
+    "dev": "electronmon .",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder",
     "build": "electron-builder --win --x64"
   },
   "dependencies": {
+    "electronmon": "^2.0.3",
     "monaco-editor": "^0.36.1"
   },
   "devDependencies": {
     "electron": "^29.0.0",
-    "electron-builder": "^24.9.1"
+    "electron-builder": "^24.13.3"
   },
+  "keywords": [
+    "editor",
+    "monaco",
+    "ide",
+    "javascript",
+    "code"
+  ],
   "build": {
-    "appId": "com.astro.editor",
-    "productName": "Astro Editor",
+    "appId": "com.tuempresa.astroide",
+    "productName": "AstroIDE",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "Js/**/*",
+      "Style/**/*",
+      "html/**/*",
+      "native/**/*",
+      "package.json"
+    ],
     "win": {
       "target": "nsis"
     },
