@@ -7,20 +7,20 @@ class AstroIDE {
         this.currentWorkspace = null;
         this.openTabs = new Map(); // Para manejar pestañas abiertas
         this.fileWatchers = new Map(); // Para observar cambios en archivos
-        
+
         this.init();
     }
 
     async init() {
         try {
             this.log('Iniciando AstroIDE...', 'info');
-            
+
             // Configurar Monaco Editor para Electron
             if (typeof require !== 'undefined') {
-                require.config({ 
-                    paths: { 
-                        vs: 'https://unpkg.com/monaco-editor@0.45.0/min/vs' 
-                    } 
+                require.config({
+                    paths: {
+                        vs: 'https://unpkg.com/monaco-editor@0.45.0/min/vs'
+                    }
                 });
             }
 
@@ -41,18 +41,18 @@ class AstroIDE {
             this.log('Monaco Editor cargado correctamente', 'info');
             this.createEditor();
             this.setupEventListeners();
-            
+
             // Configurar eventos de Electron si están disponibles
             if (window.electronAPI) {
                 this.setupElectronEvents();
                 // Abrir diálogo para seleccionar carpeta de trabajo
-                this.openWorkspace();
+                // this.openWorkspace();
             } else {
                 // Modo navegador - usar directorio actual
                 this.currentWorkspace = '.';
                 this.updateFileExplorer();
             }
-            
+
         } catch (error) {
             this.log('Error al cargar Monaco Editor: ' + error.message, 'error');
         }
@@ -176,7 +176,7 @@ class AstroIDE {
             this.setupCustomAutocomplete();
 
             this.log('Editor creado exitosamente', 'info');
-            
+
         } catch (error) {
             this.log('Error al crear el editor: ' + error.message, 'error');
         }
@@ -186,7 +186,7 @@ class AstroIDE {
         // Usar la configuración de autocompletado mejorada
         if (window.LanguageConfig) {
             const config = window.LanguageConfig.getAutocompleteConfig();
-            
+
             // Registrar proveedores para cada lenguaje
             Object.keys(config).forEach(language => {
                 monaco.languages.registerCompletionItemProvider(language, {
@@ -203,7 +203,7 @@ class AstroIDE {
                 });
             });
         }
-        
+
         // Configuración básica como fallback
         monaco.languages.registerCompletionItemProvider('javascript', {
             provideCompletionItems: (model, position) => {
@@ -368,7 +368,7 @@ class AstroIDE {
         // Atajos de teclado
         document.addEventListener('keydown', (e) => {
             if (e.ctrlKey) {
-                switch(e.key) {
+                switch (e.key) {
                     case 's':
                         e.preventDefault();
                         this.saveFile();
@@ -393,25 +393,25 @@ class AstroIDE {
                         break;
                 }
             }
-            
+
             // F5 para ejecutar todo el proyecto
             if (e.key === 'F5') {
                 e.preventDefault();
                 this.runAll();
             }
-            
+
             // F6 para ejecutar archivo actual
             if (e.key === 'F6') {
                 e.preventDefault();
                 this.runCode();
             }
-            
+
             // Ctrl+Shift+N para nuevo archivo
             if (e.ctrlKey && e.shiftKey && e.key === 'N') {
                 e.preventDefault();
                 this.showNewFileInput();
             }
-            
+
             // Ctrl+Shift+F para nueva carpeta
             if (e.ctrlKey && e.shiftKey && e.key === 'F') {
                 e.preventDefault();
@@ -474,18 +474,18 @@ class AstroIDE {
         if (data.success) {
             const filePath = data.path;
             const content = data.content;
-            
+
             // Actualizar el editor con el contenido del archivo
             this.editor.setValue(content);
             this.editor.setModelLanguage(monaco.editor.createModel(content), this.getLanguageFromFile(filePath));
-            
+
             // Agregar a pestañas abiertas
             this.openTabs.set(filePath, {
                 content: content,
                 modified: false,
                 language: this.getLanguageFromFile(filePath)
             });
-            
+
             this.currentFile = filePath;
             this.updateStatusBar(filePath, this.getLanguageFromFile(filePath));
             this.log(`Archivo cargado: ${filePath}`, 'info');
@@ -590,23 +590,23 @@ class AstroIDE {
                     // Procesar el contenido directamente aquí
                     const content = result.content;
                     const language = this.getLanguageFromFile(filePath);
-                    
+
                     // Actualizar el editor con el contenido del archivo
                     this.editor.setValue(content);
-                    
+
                     // Configurar el lenguaje del modelo
                     const model = this.editor.getModel();
                     if (model) {
                         monaco.editor.setModelLanguage(model, language);
                     }
-                    
+
                     // Agregar a pestañas abiertas
                     this.openTabs.set(filePath, {
                         content: content,
                         modified: false,
                         language: language
                     });
-                    
+
                     this.currentFile = filePath;
                     this.updateStatusBar(filePath, language);
                     this.log(`Archivo cargado: ${filePath} (${language})`, 'info');
@@ -618,20 +618,20 @@ class AstroIDE {
                 this.log('Modo navegador - simulación de carga de archivo', 'info');
                 const mockContent = `// Contenido simulado de ${filePath}\nconsole.log('Hola desde ${filePath}');`;
                 const language = this.getLanguageFromFile(filePath);
-                
+
                 this.editor.setValue(mockContent);
                 const model = this.editor.getModel();
                 if (model) {
                     monaco.editor.setModelLanguage(model, language);
                 }
-                
+
                 // Agregar a pestañas abiertas (esto faltaba)
                 this.openTabs.set(filePath, {
                     content: mockContent,
                     modified: false,
                     language: language
                 });
-                
+
                 this.currentFile = filePath;
                 this.updateStatusBar(filePath, language);
             }
@@ -643,7 +643,7 @@ class AstroIDE {
     updateFileContent() {
         if (this.currentFile && this.editor) {
             const content = this.editor.getValue();
-            
+
             // Marcar como modificado
             if (this.openTabs.has(this.currentFile)) {
                 this.openTabs.get(this.currentFile).content = content;
@@ -655,7 +655,7 @@ class AstroIDE {
     updateCursorPosition() {
         if (this.editor) {
             const position = this.editor.getPosition();
-            document.getElementById('cursorPosition').textContent = 
+            document.getElementById('cursorPosition').textContent =
                 `Ln ${position.lineNumber}, Col ${position.column}`;
         }
     }
@@ -665,7 +665,7 @@ class AstroIDE {
         if (window.LanguageConfig) {
             return window.LanguageConfig.getLanguageFromFile(filePath);
         }
-        
+
         // Fallback a la configuración básica
         const ext = filePath.split('.').pop().toLowerCase();
         const languageMap = {
@@ -721,7 +721,7 @@ class AstroIDE {
             tab.classList.remove('active');
         });
         document.querySelector(`[data-panel="${panelName}"]`).classList.add('active');
-        
+
         // Actualizar contenido
         document.querySelectorAll('.panel-pane').forEach(pane => {
             pane.classList.remove('active');
@@ -736,14 +736,14 @@ class AstroIDE {
         messageDiv.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
         consoleOutput.appendChild(messageDiv);
         consoleOutput.scrollTop = consoleOutput.scrollHeight;
-        
+
         // También mostrar en la consola del navegador
         console.log(`[AstroIDE] ${message}`);
     }
 
     async updateFileExplorer() {
         if (!this.currentWorkspace) return;
-        
+
         try {
             if (window.electronAPI) {
                 const result = await window.electronAPI.listFiles(this.currentWorkspace);
@@ -768,7 +768,7 @@ class AstroIDE {
     async renderFileExplorer(files, folders) {
         const explorer = document.getElementById('fileExplorer');
         explorer.innerHTML = '';
-        
+
         // Agregar botones de acción
         const actionsDiv = document.createElement('div');
         actionsDiv.className = 'explorer-actions';
@@ -784,7 +784,7 @@ class AstroIDE {
             </button>
         `;
         explorer.appendChild(actionsDiv);
-        
+
         // Verificar si hay contenido
         if ((!files || files.length === 0) && (!folders || folders.length === 0)) {
             const emptyDiv = document.createElement('div');
@@ -797,12 +797,12 @@ class AstroIDE {
             explorer.appendChild(emptyDiv);
             return;
         }
-        
+
         // Crear estructura de árbol
         const treeContainer = document.createElement('div');
         treeContainer.className = 'file-tree';
         explorer.appendChild(treeContainer);
-        
+
         // Renderizar carpetas como árbol
         if (folders && folders.length > 0) {
             folders.forEach(folder => {
@@ -811,7 +811,7 @@ class AstroIDE {
                 treeContainer.appendChild(folderItem);
             });
         }
-        
+
         // Renderizar archivos en el nivel raíz
         if (files && files.length > 0) {
             files.forEach(file => {
@@ -826,13 +826,13 @@ class AstroIDE {
         const folderItem = document.createElement('div');
         folderItem.className = 'tree-folder-item';
         folderItem.dataset.folder = folderName;
-        
+
         // Si no se proporciona folderPath, construir desde el workspace
         if (!folderPath) {
             folderPath = this.currentWorkspace + '/' + folderName;
         }
         folderItem.dataset.path = folderPath;
-        
+
         folderItem.innerHTML = `
             <div class="tree-item-content">
                 <i class="fas fa-chevron-right tree-expand-icon"></i>
@@ -844,23 +844,23 @@ class AstroIDE {
             </div>
             <div class="tree-children" style="display: none;"></div>
         `;
-        
+
         // Evento para expandir/contraer carpeta
         const expandIcon = folderItem.querySelector('.tree-expand-icon');
         const childrenContainer = folderItem.querySelector('.tree-children');
-        
+
         expandIcon.addEventListener('click', async (e) => {
             e.stopPropagation();
             await this.toggleFolder(folderItem, folderName, folderPath);
         });
-        
+
         // Evento para abrir carpeta (doble clic)
         folderItem.addEventListener('dblclick', (e) => {
             if (!e.target.classList.contains('tree-delete-btn') && !e.target.classList.contains('tree-expand-icon')) {
                 this.openFolderInEditor(folderPath);
             }
         });
-        
+
         return folderItem;
     }
 
@@ -868,16 +868,16 @@ class AstroIDE {
         const expandIcon = folderItem.querySelector('.tree-expand-icon');
         const childrenContainer = folderItem.querySelector('.tree-children');
         const folderIcon = folderItem.querySelector('.tree-folder-icon');
-        
+
         if (childrenContainer.style.display === 'none') {
             // Expandir carpeta
             try {
                 const result = await window.electronAPI.listFiles(folderPath);
-                
+
                 if (result && result.success) {
                     // Limpiar contenido anterior
                     childrenContainer.innerHTML = '';
-                    
+
                     // Agregar carpetas
                     if (result.folders && result.folders.length > 0) {
                         result.folders.forEach(subFolder => {
@@ -886,7 +886,7 @@ class AstroIDE {
                             childrenContainer.appendChild(subFolderItem);
                         });
                     }
-                    
+
                     // Agregar archivos
                     if (result.files && result.files.length > 0) {
                         result.files.forEach(file => {
@@ -896,7 +896,7 @@ class AstroIDE {
                             childrenContainer.appendChild(fileItem);
                         });
                     }
-                    
+
                     // Cambiar iconos
                     expandIcon.classList.remove('fa-chevron-right');
                     expandIcon.classList.add('fa-chevron-down');
@@ -921,15 +921,15 @@ class AstroIDE {
         const fileItem = document.createElement('div');
         fileItem.className = 'tree-file-item';
         fileItem.dataset.file = fileName;
-        
+
         // Si no se proporciona filePath, construir desde el workspace
         if (!filePath) {
             filePath = this.currentWorkspace + '/' + fileName;
         }
         fileItem.dataset.path = filePath;
-        
+
         const icon = this.getFileIcon(fileName);
-        
+
         fileItem.innerHTML = `
             <div class="tree-item-content">
                 <i class="fas fa-file tree-file-icon ${icon}"></i>
@@ -939,7 +939,7 @@ class AstroIDE {
                 </button>
             </div>
         `;
-        
+
         // Evento para abrir archivo
         fileItem.addEventListener('click', (e) => {
             if (!e.target.classList.contains('tree-delete-btn')) {
@@ -950,7 +950,7 @@ class AstroIDE {
                 }
             }
         });
-        
+
         return fileItem;
     }
 
@@ -1033,16 +1033,16 @@ class AstroIDE {
             <button class="create-btn" title="Crear">✓</button>
             <button class="cancel-btn" title="Cancelar">✕</button>
         `;
-        
+
         fileExplorer.appendChild(newFileInput);
-        
+
         const input = newFileInput.querySelector('.file-name-input');
         const createBtn = newFileInput.querySelector('.create-btn');
         const cancelBtn = newFileInput.querySelector('.cancel-btn');
-        
+
         // Enfocar el input
         input.focus();
-        
+
         // Evento para crear archivo
         const createFile = async () => {
             const fileName = input.value.trim();
@@ -1051,12 +1051,12 @@ class AstroIDE {
             }
             newFileInput.remove();
         };
-        
+
         // Evento para cancelar
         const cancel = () => {
             newFileInput.remove();
         };
-        
+
         // Eventos
         createBtn.addEventListener('click', createFile);
         cancelBtn.addEventListener('click', cancel);
@@ -1067,7 +1067,7 @@ class AstroIDE {
                 cancel();
             }
         });
-        
+
         // Enfocar fuera para cancelar
         input.addEventListener('blur', () => {
             setTimeout(() => {
@@ -1088,7 +1088,7 @@ class AstroIDE {
 
             // Limpiar el nombre del archivo
             fileName = fileName.trim();
-            
+
             // Verificar si el archivo ya existe (solo en modo navegador)
             if (!window.electronAPI) {
                 // En modo navegador, verificar si ya está en pestañas abiertas
@@ -1110,7 +1110,7 @@ class AstroIDE {
             const ext = fileName.split('.').pop().toLowerCase();
             let defaultContent = '';
 
-            switch(ext) {
+            switch (ext) {
                 case 'js':
                     defaultContent = `// ${fileName}
 console.log("¡Hola desde ${fileName}!");
@@ -1266,26 +1266,26 @@ Fecha de creación: ${new Date().toLocaleDateString()}
                 const result = await window.electronAPI.writeFile(filePath, defaultContent);
                 if (result && result.success) {
                     this.log(`Archivo creado: ${fileName}`, 'success');
-                    
+
                     // Agregar a pestañas abiertas y cargar en el editor
                     const language = this.getLanguageFromFile(filePath);
-                    
+
                     this.openTabs.set(filePath, {
                         content: defaultContent,
                         modified: false,
                         language: language
                     });
-                    
+
                     this.currentFile = filePath;
                     this.editor.setValue(defaultContent);
-                    
+
                     const model = this.editor.getModel();
                     if (model) {
                         monaco.editor.setModelLanguage(model, language);
                     }
-                    
+
                     this.updateStatusBar(filePath, language);
-                    
+
                     // Actualizar el explorador después de crear el archivo
                     setTimeout(() => this.updateFileExplorer(), 100);
                 } else {
@@ -1294,29 +1294,29 @@ Fecha de creación: ${new Date().toLocaleDateString()}
             } else {
                 // Simulación para navegador
                 this.log(`Archivo creado (simulación): ${fileName}`, 'success');
-                
+
                 // Agregar a pestañas abiertas y cargar en el editor
                 const filePath = this.currentWorkspace + '/' + fileName;
                 const language = this.getLanguageFromFile(filePath);
-                
+
                 this.openTabs.set(filePath, {
                     content: defaultContent,
                     modified: false,
                     language: language
                 });
-                
+
                 this.currentFile = filePath;
                 this.editor.setValue(defaultContent);
-                
+
                 const model = this.editor.getModel();
                 if (model) {
                     monaco.editor.setModelLanguage(model, language);
                 }
-                
+
                 this.updateStatusBar(filePath, language);
                 this.updateFileExplorer();
             }
-            
+
         } catch (error) {
             this.log('Error al crear archivo: ' + error.message, 'error');
         }
@@ -1336,16 +1336,16 @@ Fecha de creación: ${new Date().toLocaleDateString()}
             <button class="create-btn" title="Crear">✓</button>
             <button class="cancel-btn" title="Cancelar">✕</button>
         `;
-        
+
         fileExplorer.appendChild(newFolderInput);
-        
+
         const input = newFolderInput.querySelector('.folder-name-input');
         const createBtn = newFolderInput.querySelector('.create-btn');
         const cancelBtn = newFolderInput.querySelector('.cancel-btn');
-        
+
         // Enfocar el input
         input.focus();
-        
+
         // Evento para crear carpeta
         const createFolder = async () => {
             const folderName = input.value.trim();
@@ -1354,12 +1354,12 @@ Fecha de creación: ${new Date().toLocaleDateString()}
             }
             newFolderInput.remove();
         };
-        
+
         // Evento para cancelar
         const cancel = () => {
             newFolderInput.remove();
         };
-        
+
         // Eventos
         createBtn.addEventListener('click', createFolder);
         cancelBtn.addEventListener('click', cancel);
@@ -1370,7 +1370,7 @@ Fecha de creación: ${new Date().toLocaleDateString()}
                 cancel();
             }
         });
-        
+
         // Enfocar fuera para cancelar
         input.addEventListener('blur', () => {
             setTimeout(() => {
@@ -1391,7 +1391,7 @@ Fecha de creación: ${new Date().toLocaleDateString()}
 
             // Limpiar el nombre de la carpeta
             folderName = folderName.trim();
-            
+
             // Verificar caracteres válidos
             const invalidChars = /[<>:"/\\|?*]/;
             if (invalidChars.test(folderName)) {
@@ -1415,7 +1415,7 @@ Fecha de creación: ${new Date().toLocaleDateString()}
                 this.log(`Carpeta creada (simulación): ${folderName}`, 'success');
                 this.updateFileExplorer();
             }
-            
+
         } catch (error) {
             this.log('Error al crear carpeta: ' + error.message, 'error');
         }
@@ -1444,7 +1444,7 @@ Fecha de creación: ${new Date().toLocaleDateString()}
                     this.log(`Archivo eliminado (simulación): ${fileName}`, 'info');
                     this.updateFileExplorer();
                 }
-                
+
             } catch (error) {
                 this.log('Error al eliminar archivo: ' + error.message, 'error');
             }
@@ -1468,7 +1468,7 @@ Fecha de creación: ${new Date().toLocaleDateString()}
                     this.log(`Carpeta eliminada (simulación): ${folderName}`, 'info');
                     this.updateFileExplorer();
                 }
-                
+
             } catch (error) {
                 this.log('Error al eliminar carpeta: ' + error.message, 'error');
             }
@@ -1484,10 +1484,10 @@ Fecha de creación: ${new Date().toLocaleDateString()}
             this.log('No hay archivo abierto para guardar', 'warning');
             return;
         }
-        
+
         try {
             const content = this.editor.getValue();
-            
+
             if (window.electronAPI) {
                 const result = await window.electronAPI.writeFile(this.currentFile, content);
                 if (result && result.success) {
@@ -1507,7 +1507,7 @@ Fecha de creación: ${new Date().toLocaleDateString()}
                     this.openTabs.get(this.currentFile).modified = false;
                 }
             }
-            
+
         } catch (error) {
             this.log('Error al guardar archivo: ' + error.message, 'error');
         }
@@ -1515,8 +1515,8 @@ Fecha de creación: ${new Date().toLocaleDateString()}
 
     runCode() {
         const fileExt = this.currentFile.split('.').pop().toLowerCase();
-        
-        switch(fileExt) {
+
+        switch (fileExt) {
             case 'html':
                 this.runHTML();
                 break;
@@ -1547,29 +1547,29 @@ Fecha de creación: ${new Date().toLocaleDateString()}
         const content = this.editor.getValue();
         // Verificar si el código usa módulos de Node.js
         const nodeKeywords = [
-            'require(', 'module.exports', 'process.', 'fs.', 'http.', 
+            'require(', 'module.exports', 'process.', 'fs.', 'http.',
             'path.', 'os.', 'crypto.', 'buffer.', 'events.', 'stream.',
             'util.', 'url.', 'querystring.', 'child_process.', 'cluster.',
             'dgram.', 'dns.', 'net.', 'tls.', 'tty.', 'v8.', 'vm.', 'zlib.'
         ];
-        
+
         return nodeKeywords.some(keyword => content.includes(keyword));
     }
 
     runNodeJS() {
         try {
             this.log('Ejecutando código Node.js...', 'info');
-            
+
             // Detener proceso anterior si existe
             if (this.nodeProcess) {
                 this.nodeProcess.kill();
                 this.nodeProcess = null;
             }
-            
+
             // Crear archivo temporal
             const tempFile = `temp_${Date.now()}.js`;
             const tempContent = this.editor.getValue();
-            
+
             // Ejecutar con Node.js usando Electron
             if (window.electronAPI) {
                 window.electronAPI.runNodeJS(tempFile, this.editor.getValue());
@@ -1577,7 +1577,7 @@ Fecha de creación: ${new Date().toLocaleDateString()}
                 // Fallback para navegador (simulado)
                 this.simulateNodeJSExecution();
             }
-            
+
             this.switchPanel('output');
             const outputContent = document.getElementById('outputContent');
             outputContent.innerHTML = `
@@ -1592,7 +1592,7 @@ Fecha de creación: ${new Date().toLocaleDateString()}
                     <strong>Estado:</strong> Ejecutándose...
                 </div>
             `;
-            
+
         } catch (error) {
             this.log('Error al ejecutar Node.js: ' + error.message, 'error');
             this.showError('Error al ejecutar Node.js', error.message);
@@ -1629,13 +1629,13 @@ Fecha de creación: ${new Date().toLocaleDateString()}
     installNpmPackages() {
         try {
             this.log('Instalando paquetes npm...', 'info');
-            
+
             if (window.electronAPI) {
                 window.electronAPI.installNpmPackages();
             } else {
                 this.simulateNpmInstall();
             }
-            
+
             this.switchPanel('output');
             const outputContent = document.getElementById('outputContent');
             outputContent.innerHTML = `
@@ -1650,7 +1650,7 @@ Fecha de creación: ${new Date().toLocaleDateString()}
                     <strong>Estado:</strong> Procesando dependencias
                 </div>
             `;
-            
+
         } catch (error) {
             this.log('Error al instalar paquetes: ' + error.message, 'error');
             this.showError('Error al instalar paquetes', error.message);
@@ -1742,16 +1742,16 @@ Fecha de creación: ${new Date().toLocaleDateString()}
     runHTML() {
         try {
             this.log('Ejecutando archivo HTML...', 'info');
-            
+
             const htmlContent = this.editor.getValue();
-            
+
             // Crear una nueva ventana para mostrar el HTML
             const newWindow = window.open('', '_blank', 'width=800,height=600,scrollbars=yes,resizable=yes');
-            
+
             if (newWindow) {
                 newWindow.document.write(htmlContent);
                 newWindow.document.close();
-                
+
                 this.log('HTML ejecutado en nueva ventana', 'info');
                 this.switchPanel('output');
                 const outputContent = document.getElementById('outputContent');
@@ -1767,7 +1767,7 @@ Fecha de creación: ${new Date().toLocaleDateString()}
             } else {
                 throw new Error('No se pudo abrir la ventana (bloqueador de popups)');
             }
-            
+
         } catch (error) {
             this.log('Error al ejecutar HTML: ' + error.message, 'error');
             this.showError('Error al ejecutar HTML', error.message);
@@ -1777,23 +1777,23 @@ Fecha de creación: ${new Date().toLocaleDateString()}
     runCSS() {
         try {
             this.log('Aplicando estilos CSS...', 'info');
-            
+
             const cssContent = this.editor.getValue();
-            
+
             // Crear un elemento de estilo temporal
             const styleElement = document.createElement('style');
             styleElement.id = 'astroide-temp-css';
             styleElement.textContent = cssContent;
-            
+
             // Remover estilos anteriores si existen
             const existingStyle = document.getElementById('astroide-temp-css');
             if (existingStyle) {
                 existingStyle.remove();
             }
-            
+
             // Aplicar estilos al documento actual
             document.head.appendChild(styleElement);
-            
+
             this.log('Estilos CSS aplicados correctamente', 'info');
             this.switchPanel('output');
             const outputContent = document.getElementById('outputContent');
@@ -1811,7 +1811,7 @@ Fecha de creación: ${new Date().toLocaleDateString()}
                     </button>
                 </div>
             `;
-            
+
         } catch (error) {
             this.log('Error al aplicar CSS: ' + error.message, 'error');
             this.showError('Error al aplicar CSS', error.message);
@@ -1821,41 +1821,41 @@ Fecha de creación: ${new Date().toLocaleDateString()}
     runJavaScript() {
         try {
             this.log('Ejecutando código JavaScript...', 'info');
-            
+
             // Capturar console.log y console.error
             const originalLog = console.log;
             const originalError = console.error;
             const originalWarn = console.warn;
             const output = [];
-            
+
             console.log = (...args) => {
                 output.push({ type: 'log', message: args.join(' ') });
                 originalLog.apply(console, args);
             };
-            
+
             console.error = (...args) => {
                 output.push({ type: 'error', message: args.join(' ') });
                 originalError.apply(console, args);
             };
-            
+
             console.warn = (...args) => {
                 output.push({ type: 'warn', message: args.join(' ') });
                 originalWarn.apply(console, args);
             };
-            
+
             // Ejecutar código
             const code = this.editor.getValue();
             const result = new Function(code)();
-            
+
             // Restaurar console
             console.log = originalLog;
             console.error = originalError;
             console.warn = originalWarn;
-            
+
             // Mostrar resultado
             this.switchPanel('output');
             const outputContent = document.getElementById('outputContent');
-            
+
             if (output.length === 0) {
                 outputContent.innerHTML = `
                     <div class="output-message success">
@@ -1867,13 +1867,13 @@ Fecha de creación: ${new Date().toLocaleDateString()}
                     </div>
                 `;
             } else {
-                const outputHTML = output.map(item => 
+                const outputHTML = output.map(item =>
                     `<div class="output-message ${item.type}">
                         <i class="fas fa-${item.type === 'error' ? 'exclamation-circle' : item.type === 'warn' ? 'exclamation-triangle' : 'info-circle'}"></i>
                         ${item.message}
                     </div>`
                 ).join('');
-                
+
                 outputContent.innerHTML = `
                     <div class="output-message success">
                         <i class="fas fa-check-circle"></i>
@@ -1882,7 +1882,7 @@ Fecha de creación: ${new Date().toLocaleDateString()}
                     ${outputHTML}
                 `;
             }
-            
+
         } catch (error) {
             this.log('Error al ejecutar JavaScript: ' + error.message, 'error');
             this.showError('Error al ejecutar JavaScript', error.message);
@@ -1892,12 +1892,12 @@ Fecha de creación: ${new Date().toLocaleDateString()}
     runAll() {
         try {
             this.log('Ejecutando proyecto completo (HTML + CSS + JS)...', 'info');
-            
+
             // Obtener contenido de todos los archivos (simulación para navegador)
             let htmlContent = '';
             let cssContent = '';
             let jsContent = '';
-            
+
             if (window.electronAPI && this.currentWorkspace) {
                 // En Electron, intentar leer los archivos reales
                 try {
@@ -1912,11 +1912,11 @@ Fecha de creación: ${new Date().toLocaleDateString()}
                 cssContent = 'body { font-family: Arial, sans-serif; margin: 20px; }';
                 jsContent = 'console.log("Proyecto ejecutado correctamente");';
             }
-            
+
             if (!htmlContent) {
                 throw new Error('No se encontró archivo HTML para ejecutar');
             }
-            
+
             // Crear HTML completo con CSS y JS integrados
             const fullHTML = `
 <!DOCTYPE html>
@@ -1936,14 +1936,14 @@ Fecha de creación: ${new Date().toLocaleDateString()}
     </script>
 </body>
 </html>`;
-            
+
             // Crear nueva ventana
             const newWindow = window.open('', '_blank', 'width=1000,height=700,scrollbars=yes,resizable=yes');
-            
+
             if (newWindow) {
                 newWindow.document.write(fullHTML);
                 newWindow.document.close();
-                
+
                 this.log('Proyecto completo ejecutado en nueva ventana', 'info');
                 this.switchPanel('output');
                 const outputContent = document.getElementById('outputContent');
@@ -1962,7 +1962,7 @@ Fecha de creación: ${new Date().toLocaleDateString()}
             } else {
                 throw new Error('No se pudo abrir la ventana (bloqueador de popups)');
             }
-            
+
         } catch (error) {
             this.log('Error al ejecutar proyecto completo: ' + error.message, 'error');
             this.showError('Error al ejecutar proyecto completo', error.message);
@@ -2020,7 +2020,7 @@ Fecha de creación: ${new Date().toLocaleDateString()}
 
     loadExternalFile(path, content) {
         const fileName = path.split('/').pop() || path.split('\\').pop();
-        
+
         if (window.electronAPI) {
             // En Electron, guardar el archivo real
             const filePath = this.currentWorkspace + '/' + fileName;
@@ -2029,7 +2029,7 @@ Fecha de creación: ${new Date().toLocaleDateString()}
             // En navegador, simular carga
             this.log(`Archivo externo cargado (simulación): ${fileName}`, 'info');
         }
-        
+
         this.loadFile(fileName);
         this.updateFileExplorer();
     }
